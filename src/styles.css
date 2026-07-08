@@ -1,5 +1,6 @@
 :root {
   --mira-blue: #4086de;
+  --mira-green: #4eb97f;
   --mira-page-bg: #363981;
   --mira-white: #ffffff;
   --mira-white-06: rgba(255, 255, 255, 0.06);
@@ -75,18 +76,20 @@ select {
 }
 
 .drawer-launcher-tabs {
-  width: fit-content;
+  width: min(100%, 252px);
   max-width: 100%;
-  min-height: 64px;
+  min-height: 0;
   padding: 8px;
   display: flex;
+  flex-direction: column;
   gap: 8px;
-  align-items: center;
-  border-radius: 999px;
+  align-items: stretch;
+  border-radius: 28px;
   background: var(--alpha-6, rgba(255, 255, 255, 0.06));
 }
 
 .drawer-launcher-tab {
+  width: 100%;
   height: 48px;
   padding: 0 20px;
   display: inline-flex;
@@ -193,10 +196,88 @@ select {
   box-shadow: 0 28px 70px rgba(12, 20, 71, 0.22);
 }
 
+.help-drawer__background {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+  overflow: hidden;
+  opacity: 1;
+  background: var(--mira-blue);
+}
+
+.help-drawer__background::before,
+.help-drawer__background::after {
+  content: "";
+  position: absolute;
+  display: block;
+  border-radius: 999px;
+  filter: blur(18px);
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+.help-drawer__background::before {
+  width: 360px;
+  height: 238px;
+  top: auto;
+  right: auto;
+  bottom: -158px;
+  left: 50%;
+  opacity: 0.22;
+  background: #4EB97F;
+  transform-origin: 50% 100%;
+  animation: drawer-green-float 7.4s cubic-bezier(0.645, 0.045, 0.355, 1) infinite alternate;
+}
+
+.help-drawer__background::after {
+  width: 270px;
+  height: 210px;
+  top: -74px;
+  right: -96px;
+  opacity: 0.16;
+  background: #326fc6;
+  animation: drawer-blue-float 12s cubic-bezier(0.645, 0.045, 0.355, 1) infinite alternate;
+}
+
+@keyframes drawer-green-float {
+  0% {
+    transform: translate3d(-50%, 62px, 0) scale(0.9);
+  }
+
+  50% {
+    transform: translate3d(-50%, -58px, 0) scale(1.12);
+  }
+
+  100% {
+    transform: translate3d(-50%, -26px, 0) scale(1.04);
+  }
+}
+
+@keyframes drawer-blue-float {
+  0% {
+    transform: translate3d(24px, -8px, 0) scale(1.02);
+  }
+
+  50% {
+    transform: translate3d(-22px, 30px, 0) scale(1.1);
+  }
+
+  100% {
+    transform: translate3d(-54px, 16px, 0) scale(1.04);
+  }
+}
+
 .help-drawer__handle {
   width: 64px;
   height: 6px;
   flex: 0 0 auto;
+  position: relative;
+  z-index: 1;
   border-radius: 999px;
   background: var(--mira-white-24);
 }
@@ -215,10 +296,23 @@ select {
   padding-top: 16px;
 }
 
+.help-drawer--sign .help-drawer__content {
+  padding-top: 16px;
+  gap: 18px;
+}
+
 .help-drawer__sos {
   flex: 0 0 auto;
   /* clearance so the ripples stay inside the SOS zone, off the handle and title */
   margin: 12px 0 10px;
+  -webkit-touch-callout: none;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+.open-sign-commitment,
+.open-sign-pad__canvas,
+.open-sign-commitment * {
   -webkit-touch-callout: none;
   -webkit-user-drag: none;
   user-select: none;
@@ -583,11 +677,198 @@ select {
   user-select: none;
 }
 
+.open-sign-commitment {
+  width: 100%;
+  min-height: 56px;
+  padding: 8px 8px 8px 12px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--mira-white);
+  border: 0;
+  border-radius: 12px;
+  background: var(--mira-white-06);
+  pointer-events: none;
+  cursor: default;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.open-sign-commitment__copy {
+  min-width: 0;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  color: var(--mira-white);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0.28px;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+.open-sign-commitment__icon {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  display: block;
+  pointer-events: none;
+}
+
+.open-sign-block {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+}
+
+.open-sign-pad-frame {
+  width: 100%;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  border: 1px solid var(--mira-white-10);
+  border-radius: 16px;
+  background: var(--mira-white-10);
+}
+
+.open-sign-pad {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--mira-white);
+}
+
+.open-sign-pad__canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.open-sign-pad-actions {
+  padding-right: 8px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 14px;
+}
+
+.open-sign-pad-action {
+  min-width: 0;
+  height: 24px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: var(--mira-white);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  cursor: pointer;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0;
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease;
+}
+
+.open-sign-pad-action:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.open-sign-pad-action:disabled {
+  cursor: default;
+  opacity: 0.52;
+}
+
+.open-sign-pad-action:focus-visible {
+  outline: none;
+}
+
+.open-sign-pad-action__icon {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  display: block;
+  pointer-events: none;
+}
+
+.open-sign-pad-action__icon--clear {
+  transform: translateY(-1px);
+}
+
+.open-sign-submit,
+.open-sign-skip {
+  width: 100%;
+  height: 64px;
+  padding: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  color: var(--mira-white);
+  border: 0;
+  border-radius: 16px;
+  cursor: pointer;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0.16px;
+  text-align: center;
+  white-space: nowrap;
+  transition:
+    background-color 160ms ease,
+    opacity 160ms ease,
+    transform 160ms ease;
+}
+
+.open-sign-submit {
+  background: var(--mira-green);
+}
+
+.open-sign-submit:disabled {
+  background: var(--mira-white-06);
+  cursor: default;
+  opacity: 0.58;
+}
+
+.open-sign-skip {
+  background: var(--mira-white-06);
+}
+
+.open-sign-submit:active:not(:disabled),
+.open-sign-skip:active {
+  transform: scale(0.985);
+}
+
+.open-sign-submit:focus-visible,
+.open-sign-skip:focus-visible {
+  outline: none;
+}
+
 @media (max-width: 600px) {
   .drawer-launcher-tabs {
-    min-height: 56px;
+    width: min(100%, 232px);
+    min-height: 0;
     padding: 6px;
     gap: 6px;
+    border-radius: 24px;
   }
 
   .drawer-launcher-tab {
@@ -619,6 +900,10 @@ select {
     font-size: 15px;
     line-height: 22px;
   }
+
+  .open-sign-pad {
+    height: 184px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -626,8 +911,16 @@ select {
   .sos-ring,
   .sos-core,
   .sos-core::before,
-  .help-drawer__ellipsis span {
+  .help-drawer__ellipsis span,
+  .help-drawer__background,
+  .help-drawer__background::before,
+  .help-drawer__background::after {
     animation: none;
+  }
+
+  .help-drawer__background::before,
+  .help-drawer__background::after {
+    transform: translate3d(0, 0, 0);
   }
 
   .help-drawer__ellipsis span {
@@ -643,7 +936,10 @@ select {
     transform: scale(1);
   }
 
-  .help-drawer__item {
+  .help-drawer__item,
+  .open-sign-pad-action,
+  .open-sign-submit,
+  .open-sign-skip {
     transition: none;
   }
 
