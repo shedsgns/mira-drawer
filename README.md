@@ -1,8 +1,8 @@
 # MIRA SOS Drawer
 
-A small React prototype for the MIRA SOS bottom drawer flow.
+A small React prototype for the MIRA bottom drawer flows.
 
-It starts with a Figma-matched green trigger button and opens a bottom drawer with a 64px animated SOS beacon and four support actions.
+It starts with a Figma-matched two-tab launcher and opens either the SOS support drawer or the recap-preparation drawer.
 
 Live demo: `https://shedsgns.github.io/mira-drawer/`
 
@@ -13,7 +13,8 @@ Live demo: `https://shedsgns.github.io/mira-drawer/`
 - MIRA blue drawer surface: `#4086de`
 - Onest font via `@fontsource/onest`
 - Animated SOS beacon with reduced-motion support
-- Transparent outside-click close area
+- Neural recap loader with reduced-motion support
+- Soft blurred outside-click close area
 - Escape-to-close and focus return behavior
 
 ## Actions
@@ -40,6 +41,7 @@ npm run build
 
 ## Files
 
-- `src/App.jsx` - React components and drawer state
-- `src/styles.css` - styling, drawer motion, and SOS animation
+- `src/App.tsx` - React components and drawer state
+- `src/styles.css` - styling, drawer motion, and animations
+- `neural-loader.js` - canvas recap loader animation
 - `Icons/` - SVG assets
