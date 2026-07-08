@@ -1,4 +1,4 @@
-import React, { StrictMode, useEffect, useRef, useState } from 'react';
+import { StrictMode, useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import '@fontsource/onest/400.css';
 import '@fontsource/onest/500.css';
@@ -11,7 +11,17 @@ import meditationIcon from '../Icons/Notif Icons-3.svg';
 import chevronIcon from '../Icons/Chevron.svg';
 import sosWordmark from '../Icons/SOS.svg';
 
-const drawerActions = [
+type DrawerAction = {
+  label: string;
+  icon: string;
+};
+
+type HelpDrawerProps = {
+  actions?: DrawerAction[];
+  onSelect?: (action: DrawerAction) => void;
+};
+
+const drawerActions: DrawerAction[] = [
   {
     label: 'Panic attack support',
     icon: panicIcon,
@@ -30,7 +40,7 @@ const drawerActions = [
   },
 ];
 
-function HelpDrawer({ actions = drawerActions, onSelect }) {
+function HelpDrawer({ actions = drawerActions, onSelect }: HelpDrawerProps) {
   return (
     <section className="help-drawer" aria-labelledby="help-drawer-title">
       <div className="help-drawer__handle" aria-hidden="true" />
@@ -73,11 +83,11 @@ function HelpDrawer({ actions = drawerActions, onSelect }) {
 
 function App() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const openButtonRef = useRef(null);
-  const drawerRef = useRef(null);
+  const openButtonRef = useRef<HTMLButtonElement>(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    function onKeyDown(event) {
+    function onKeyDown(event: KeyboardEvent) {
       if (event.key === 'Escape') {
         setIsDrawerOpen(false);
       }
@@ -116,7 +126,7 @@ function App() {
       <div
         className={`drawer-system ${isDrawerOpen ? 'drawer-system--open' : ''}`}
         aria-hidden={!isDrawerOpen}
-        inert={isDrawerOpen ? undefined : ''}
+        inert={isDrawerOpen ? undefined : true}
       >
         <button className="drawer-overlay" type="button" aria-label="Close SOS drawer" onClick={() => setIsDrawerOpen(false)} />
 
@@ -128,10 +138,17 @@ function App() {
   );
 }
 
-createRoot(document.getElementById('root')).render(
+const rootElement = document.getElementById('root');
+
+if (!rootElement) {
+  throw new Error('Root element not found');
+}
+
+createRoot(rootElement).render(
   <StrictMode>
     <App />
   </StrictMode>,
 );
 
 export { HelpDrawer };
+export type { DrawerAction, HelpDrawerProps };
