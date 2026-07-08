@@ -506,11 +506,6 @@ select {
     transform 160ms ease;
 }
 
-.help-drawer__item:hover {
-  background: var(--mira-white-10);
-  border-color: rgba(255, 255, 255, 0.12);
-}
-
 .help-drawer__item:active {
   transform: scale(0.985);
 }
