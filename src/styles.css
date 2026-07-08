@@ -1,0 +1,495 @@
+:root {
+  --mira-blue: #4086de;
+  --mira-page-bg: #363981;
+  --mira-white: #ffffff;
+  --mira-white-06: rgba(255, 255, 255, 0.06);
+  --mira-white-10: rgba(255, 255, 255, 0.1);
+  --mira-white-24: rgba(255, 255, 255, 0.24);
+  font-family:
+    Onest,
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  color: var(--mira-white);
+  background: var(--mira-page-bg);
+  font-synthesis: none;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  min-width: 320px;
+}
+
+body.drawer-is-open {
+  overflow: hidden;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.app-shell {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  background: var(--mira-page-bg);
+  overflow: hidden;
+}
+
+.launcher {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    transform 500ms cubic-bezier(0.32, 0.72, 0, 1),
+    opacity 300ms ease;
+}
+
+.app-shell--drawer-open .launcher {
+  opacity: 1;
+  transform: none;
+}
+
+.sos-open-button {
+  min-width: min(100%, 240px);
+  min-height: 62px;
+  padding: 20px 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--mira-white);
+  border: 0;
+  border-radius: 999px;
+  background: #4eb97f;
+  box-shadow: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0.01em;
+  text-align: center;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.sos-open-button:hover {
+  background: #58c88c;
+}
+
+.sos-open-button:active {
+  transform: scale(0.982);
+}
+
+.sos-open-button:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.82);
+  outline-offset: 4px;
+}
+
+.drawer-system {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.drawer-system--open {
+  pointer-events: auto;
+}
+
+.drawer-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 522px;
+  left: 0;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: default;
+  opacity: 1;
+}
+
+.drawer-system--open .drawer-overlay {
+  opacity: 1;
+}
+
+.drawer-positioner {
+  width: min(100vw, 393px);
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: 0 auto;
+  transform: translate3d(0, calc(100% + 24px), 0);
+  transition: transform 500ms cubic-bezier(0.32, 0.72, 0, 1);
+  will-change: transform;
+}
+
+.drawer-system--open .drawer-positioner {
+  transform: translate3d(0, 0, 0);
+}
+
+.help-drawer {
+  width: min(100vw, 393px);
+  min-height: 510px;
+  padding: 20px 20px 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 30px 30px 0 0;
+  background: var(--mira-blue);
+  box-shadow: 0 28px 70px rgba(12, 20, 71, 0.22);
+}
+
+.help-drawer__handle {
+  width: 64px;
+  height: 6px;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: var(--mira-white-24);
+}
+
+.help-drawer__content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.help-drawer__sos {
+  flex: 0 0 auto;
+  /* clearance so the ripples stay inside the SOS zone, off the handle and title */
+  margin: 12px 0 10px;
+}
+
+.sos-btn {
+  --sos-size: 64px;
+  --sos-breath: 6.4s;
+  --sos-ease-breathe: cubic-bezier(0.37, 0, 0.63, 1);
+  --sos-coral-1: #ffbd8f;
+  --sos-coral-2: #ff7d3b;
+  --sos-coral-3: #ff5304;
+  --sos-coral-4: #d63c00;
+  width: var(--sos-size);
+  height: var(--sos-size);
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* Expanding ripples — a calm beacon, paced to a slow breath */
+.sos-ripple {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  opacity: 0;
+  transform: scale(1);
+  animation: sos-ripple var(--sos-breath) cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+  will-change: transform, opacity;
+}
+
+.sos-ripple--late {
+  animation-delay: calc(var(--sos-breath) / -2);
+}
+
+/* Hairline ring with a slow rotating glint */
+.sos-ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  padding: 2px;
+  background: conic-gradient(
+    from 0deg,
+    rgba(255, 255, 255, 0.08),
+    #ffffff 12%,
+    rgba(255, 255, 255, 0.4) 28%,
+    rgba(255, 255, 255, 0.08) 46%,
+    rgba(255, 255, 255, 0.08)
+  );
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2.5px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2.5px));
+  animation: sos-ring-rotate 14s linear infinite;
+  will-change: transform;
+}
+
+/* Core disc — soft coral gradient, flat and luminous */
+.sos-core {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 120% at 30% 20%, var(--sos-coral-1) 0%, var(--sos-coral-2) 32%, var(--sos-coral-3) 66%, var(--sos-coral-4) 100%);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.5),
+    inset 0 -6px 14px rgba(166, 42, 0, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.14),
+    0 10px 30px rgba(255, 83, 4, 0.34),
+    0 24px 48px rgba(24, 32, 92, 0.24);
+  animation: sos-breathe var(--sos-breath) var(--sos-ease-breathe) infinite;
+  will-change: transform;
+}
+
+/* Inner glass light — cool, specular, thin so the orange stays saturated.
+   Orbits in sync with the ring glint while its brightness breathes. */
+.sos-core::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(90% 65% at 50% 24%, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0.1) 40%, transparent 58%);
+  opacity: 0.45;
+  animation:
+    sos-inner-light var(--sos-breath) var(--sos-ease-breathe) infinite,
+    sos-ring-rotate 14s linear infinite;
+  will-change: opacity, transform;
+}
+
+/* Glass edges — crisp top highlight and a faint bottom rim */
+.sos-core::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: 50%;
+  background:
+    linear-gradient(172deg, rgba(255, 255, 255, 0.38) 0%, rgba(255, 255, 255, 0.05) 22%, transparent 36%),
+    radial-gradient(80% 40% at 50% 100%, rgba(255, 255, 255, 0.14) 0%, transparent 62%);
+}
+
+.sos-label {
+  position: relative;
+  z-index: 1;
+  width: calc(var(--sos-size) * 0.445);
+  height: auto;
+  display: block;
+}
+
+@keyframes sos-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.04);
+  }
+}
+
+@keyframes sos-inner-light {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@keyframes sos-ripple {
+  0% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+
+  18% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+@keyframes sos-ring-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.help-drawer__title {
+  width: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--mira-white);
+  font-size: 28px;
+  font-weight: 550;
+  line-height: 36px;
+  letter-spacing: 0;
+  text-align: center;
+}
+
+.help-drawer__list {
+  width: 100%;
+  display: grid;
+  gap: 8px;
+}
+
+.help-drawer__item {
+  width: 100%;
+  height: 56px;
+  padding: 7px 14px 7px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--mira-white);
+  border: 1px solid var(--mira-white-06);
+  border-radius: 999px;
+  background: var(--mira-white-06);
+  box-shadow: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.help-drawer__item:hover {
+  background: var(--mira-white-10);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.help-drawer__item:active {
+  transform: scale(0.985);
+}
+
+.help-drawer__item:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.82);
+  outline-offset: 3px;
+}
+
+.help-drawer__item-main {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.help-drawer__item-icon {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  display: block;
+}
+
+.help-drawer__item-label {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: var(--mira-white);
+  font-size: 16px;
+  font-weight: 550;
+  line-height: 24px;
+  letter-spacing: 0;
+  text-align: left;
+}
+
+.help-drawer__chevron {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  display: block;
+}
+
+@media (max-width: 360px) {
+  .help-drawer {
+    min-height: 492px;
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .drawer-overlay {
+    bottom: 492px;
+  }
+
+  .help-drawer__title {
+    font-size: 26px;
+    line-height: 34px;
+  }
+
+  .help-drawer__item-label {
+    font-size: 15px;
+    line-height: 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sos-ripple,
+  .sos-ring,
+  .sos-core,
+  .sos-core::before {
+    animation: none;
+  }
+
+  .sos-ripple {
+    display: none;
+  }
+
+  .sos-core::before {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+
+  .help-drawer__item {
+    transition: none;
+  }
+
+  .launcher,
+  .sos-open-button,
+  .drawer-overlay,
+  .drawer-positioner {
+    transition: none;
+  }
+}
