@@ -111,8 +111,7 @@ select {
 }
 
 .sos-open-button:focus-visible {
-  outline: 2px solid rgba(255, 255, 255, 0.82);
-  outline-offset: 4px;
+  outline: none;
 }
 
 .drawer-system {
@@ -233,7 +232,8 @@ select {
   animation-delay: calc(var(--sos-breath) / -2);
 }
 
-/* Hairline ring with a slow rotating glint */
+/* Hairline ring — a bright leading glint with a soft tail, and a faint
+   counter-glint opposite it, both haloed so the light feels emitted */
 .sos-ring {
   position: absolute;
   inset: -6px;
@@ -241,15 +241,20 @@ select {
   padding: 2px;
   background: conic-gradient(
     from 0deg,
-    rgba(255, 255, 255, 0.08),
-    #ffffff 12%,
-    rgba(255, 255, 255, 0.4) 28%,
-    rgba(255, 255, 255, 0.08) 46%,
-    rgba(255, 255, 255, 0.08)
+    rgba(255, 255, 255, 0.07),
+    rgba(255, 255, 255, 0.5) 8%,
+    #ffffff 14%,
+    rgba(255, 255, 255, 0.45) 22%,
+    rgba(255, 255, 255, 0.07) 40%,
+    rgba(255, 255, 255, 0.07) 52%,
+    rgba(255, 255, 255, 0.3) 61%,
+    rgba(255, 255, 255, 0.07) 72%,
+    rgba(255, 255, 255, 0.07)
   );
   -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2.5px));
   mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2.5px));
-  animation: sos-ring-rotate 14s linear infinite;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.35));
+  animation: sos-ring-rotate 12s linear infinite;
   will-change: transform;
 }
 
@@ -264,14 +269,17 @@ select {
   justify-content: center;
   overflow: hidden;
   background:
-    radial-gradient(120% 120% at 30% 20%, var(--sos-coral-1) 0%, var(--sos-coral-2) 32%, var(--sos-coral-3) 66%, var(--sos-coral-4) 100%);
+    radial-gradient(120% 120% at 30% 20%, rgba(255, 171, 156, 0.97) 0%, rgba(255, 97, 82, 0.93) 32%, rgba(255, 59, 48, 0.9) 66%, rgba(200, 24, 46, 0.94) 100%);
+  -webkit-backdrop-filter: blur(14px) saturate(170%);
+  backdrop-filter: blur(14px) saturate(170%);
   box-shadow:
-    inset 0 1px 1px rgba(255, 255, 255, 0.5),
-    inset 0 -6px 14px rgba(166, 42, 0, 0.35),
+    inset 0 1px 1px rgba(255, 255, 255, 0.55),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.22),
+    inset 0 10px 20px rgba(255, 255, 255, 0.1),
+    inset 0 -8px 16px rgba(150, 12, 40, 0.28),
     0 0 0 1px rgba(255, 255, 255, 0.14),
-    0 10px 30px rgba(255, 83, 4, 0.34),
     0 24px 48px rgba(24, 32, 92, 0.24);
-  animation: sos-breathe var(--sos-breath) var(--sos-ease-breathe) infinite;
+  animation: sos-heartbeat 2.8s var(--sos-ease-breathe) infinite;
   will-change: transform;
 }
 
@@ -286,11 +294,11 @@ select {
   opacity: 0.45;
   animation:
     sos-inner-light var(--sos-breath) var(--sos-ease-breathe) infinite,
-    sos-ring-rotate 14s linear infinite;
+    sos-ring-rotate 18s linear infinite;
   will-change: opacity, transform;
 }
 
-/* Glass edges — crisp top highlight and a faint bottom rim */
+/* Glass edges — top highlight, bottom rim, and edge lensing where light bends at the rim */
 .sos-core::after {
   content: "";
   position: absolute;
@@ -298,7 +306,8 @@ select {
   border-radius: 50%;
   background:
     linear-gradient(172deg, rgba(255, 255, 255, 0.38) 0%, rgba(255, 255, 255, 0.05) 22%, transparent 36%),
-    radial-gradient(80% 40% at 50% 100%, rgba(255, 255, 255, 0.14) 0%, transparent 62%);
+    radial-gradient(80% 40% at 50% 100%, rgba(255, 255, 255, 0.16) 0%, transparent 62%),
+    radial-gradient(farthest-side, transparent 76%, rgba(255, 255, 255, 0.08) 88%, rgba(255, 255, 255, 0.3) 98%, rgba(255, 255, 255, 0.42) 100%);
 }
 
 .sos-label {
@@ -309,14 +318,27 @@ select {
   display: block;
 }
 
-@keyframes sos-breathe {
-  0%,
-  100% {
+/* Resting heartbeat — a soft lub-dub, then a long rest */
+@keyframes sos-heartbeat {
+  0% {
     transform: scale(1);
   }
 
-  50% {
-    transform: scale(1.04);
+  6% {
+    transform: scale(1.035);
+  }
+
+  12% {
+    transform: scale(1);
+  }
+
+  18% {
+    transform: scale(1.018);
+  }
+
+  26%,
+  100% {
+    transform: scale(1);
   }
 }
 
