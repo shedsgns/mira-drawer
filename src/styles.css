@@ -210,7 +210,6 @@ select {
   background: var(--mira-blue);
 }
 
-.help-drawer__background::before,
 .help-drawer__background::after {
   content: "";
   position: absolute;
@@ -221,19 +220,6 @@ select {
   transform: translate3d(0, 0, 0);
 }
 
-.help-drawer__background::before {
-  width: 360px;
-  height: 238px;
-  top: auto;
-  right: auto;
-  bottom: -158px;
-  left: 50%;
-  opacity: 0.22;
-  background: #4EB97F;
-  transform-origin: 50% 100%;
-  animation: drawer-green-float 7.4s cubic-bezier(0.645, 0.045, 0.355, 1) infinite alternate;
-}
-
 .help-drawer__background::after {
   width: 270px;
   height: 210px;
@@ -242,20 +228,6 @@ select {
   opacity: 0.16;
   background: #326fc6;
   animation: drawer-blue-float 12s cubic-bezier(0.645, 0.045, 0.355, 1) infinite alternate;
-}
-
-@keyframes drawer-green-float {
-  0% {
-    transform: translate3d(-50%, 62px, 0) scale(0.9);
-  }
-
-  50% {
-    transform: translate3d(-50%, -58px, 0) scale(1.12);
-  }
-
-  100% {
-    transform: translate3d(-50%, -26px, 0) scale(1.04);
-  }
 }
 
 @keyframes drawer-blue-float {
@@ -744,7 +716,9 @@ select {
   justify-content: stretch;
   overflow: hidden;
   border-radius: 12px;
-  background: var(--mira-white);
+  background:
+    radial-gradient(circle at 1px 1px, #E8EDFF 0 1px, var(--mira-white) 1.25px) 0 0 / 18px 18px,
+    var(--mira-white);
 }
 
 .open-sign-pad__canvas {
@@ -756,10 +730,46 @@ select {
 }
 
 .open-sign-pad-actions {
-  padding-right: 8px;
+  padding: 0 8px;
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.open-sign-color-swatches,
+.open-sign-pad-actions__commands {
+  display: inline-flex;
+  align-items: center;
+}
+
+.open-sign-color-swatches {
+  gap: 6px;
+}
+
+.open-sign-pad-actions__commands {
   gap: 14px;
+}
+
+.open-sign-color-swatch {
+  width: 14px;
+  height: 14px;
+  padding: 0;
+  display: block;
+  flex: 0 0 14px;
+  border: 1px solid var(--mira-white-24);
+  border-radius: 999px;
+  cursor: pointer;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.open-sign-color-swatch[data-active="true"] {
+  border-color: var(--mira-white);
+}
+
+.open-sign-color-swatch:focus-visible {
+  outline: none;
 }
 
 .open-sign-pad-action {
@@ -781,13 +791,7 @@ select {
   font-weight: 500;
   line-height: 18px;
   letter-spacing: 0;
-  transition:
-    opacity 160ms ease,
-    transform 160ms ease;
-}
-
-.open-sign-pad-action:active:not(:disabled) {
-  transform: translateY(1px);
+  transition: opacity 160ms ease;
 }
 
 .open-sign-pad-action:disabled {
@@ -913,12 +917,10 @@ select {
   .sos-core::before,
   .help-drawer__ellipsis span,
   .help-drawer__background,
-  .help-drawer__background::before,
   .help-drawer__background::after {
     animation: none;
   }
 
-  .help-drawer__background::before,
   .help-drawer__background::after {
     transform: translate3d(0, 0, 0);
   }

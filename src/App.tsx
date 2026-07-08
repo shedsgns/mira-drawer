@@ -26,6 +26,11 @@ type SignaturePoint = {
   pressure: number;
 };
 
+type SignatureStroke = {
+  color: string;
+  points: SignaturePoint[];
+};
+
 type DrawerTabId = 'support' | 'recap' | 'sign';
 
 type DrawerTabBase = {
@@ -103,13 +108,21 @@ const drawerTabs: readonly DrawerTab[] = [
   },
 ];
 
+const signatureColors = [
+  { label: 'Blue', value: '#001BBD' },
+  { label: 'Red', value: '#FF2A4A' },
+  { label: 'Purple', value: '#CD16FF' },
+  { label: 'Black', value: '#1C1C1C' },
+] as const;
+
 function HelpDrawer({ drawer = drawerTabs[0], isOpen = false, onSelect }: HelpDrawerProps) {
   const loaderCanvasRef = useRef<HTMLCanvasElement>(null);
   const signatureCanvasRef = useRef<HTMLCanvasElement>(null);
   const isSigningRef = useRef(false);
-  const signatureStrokesRef = useRef<SignaturePoint[][]>([]);
+  const signatureStrokesRef = useRef<SignatureStroke[]>([]);
   const currentSignatureStrokeRef = useRef<SignaturePoint[] | null>(null);
   const lastSignaturePointRef = useRef<SignaturePoint | null>(null);
+  const [signatureColor, setSignatureColor] = useState(signatureColors[0].value);
   const [signatureStrokeCount, setSignatureStrokeCount] = useState(0);
   const hasSignature = signatureStrokeCount > 0;
 
@@ -177,8 +190,6 @@ function HelpDrawer({ drawer = drawerTabs[0], isOpen = false, onSelect }: HelpDr
     }
 
     context.setTransform(dpr, 0, 0, dpr, 0, 0);
-    context.strokeStyle = '#001BBD';
-    context.fillStyle = '#001BBD';
     context.lineWidth = 2.2;
     context.lineCap = 'round';
     context.lineJoin = 'round';
@@ -186,10 +197,15 @@ function HelpDrawer({ drawer = drawerTabs[0], isOpen = false, onSelect }: HelpDr
     return { context, width: rect.width, height: rect.height };
   }
 
-  function drawSignaturePath(context: CanvasRenderingContext2D, points: SignaturePoint[]) {
+  function drawSignaturePath(context: CanvasRenderingContext2D, stroke: SignatureStroke) {
+    const { color, points } = stroke;
+
     if (points.length === 0) {
       return;
     }
+
+    context.strokeStyle = color;
+    context.fillStyle = color;
 
     if (points.length === 1) {
       context.beginPath();
@@ -237,9 +253,9 @@ function HelpDrawer({ drawer = drawerTabs[0], isOpen = false, onSelect }: HelpDr
     event.currentTarget.setPointerCapture(event.pointerId);
     isSigningRef.current = true;
     const point = getSignaturePoint(event);
-    const stroke = [point];
+    const stroke = { color: signatureColor, points: [point] };
     signatureStrokesRef.current.push(stroke);
-    currentSignatureStrokeRef.current = stroke;
+    currentSignatureStrokeRef.current = stroke.points;
     lastSignaturePointRef.current = point;
     redrawSignature(event.currentTarget);
     setSignatureStrokeCount(signatureStrokesRef.current.length);
@@ -286,6 +302,10 @@ function HelpDrawer({ drawer = drawerTabs[0], isOpen = false, onSelect }: HelpDr
     lastSignaturePointRef.current = null;
     setSignatureStrokeCount(0);
     redrawSignature();
+  }
+
+  function selectSignatureColor(color: (typeof signatureColors)[number]['value']) {
+    setSignatureColor(color);
   }
 
   return (
@@ -383,14 +403,31 @@ function HelpDrawer({ drawer = drawerTabs[0], isOpen = false, onSelect }: HelpDr
                 </div>
 
                 <div className="open-sign-pad-actions" aria-label="Signature actions">
-                  <button className="open-sign-pad-action" type="button" onClick={undoSignature} disabled={!hasSignature}>
-                    <img className="open-sign-pad-action__icon" src={undoIcon} alt="" draggable={false} />
-                    <span>Undo</span>
-                  </button>
-                  <button className="open-sign-pad-action" type="button" onClick={clearSignature} disabled={!hasSignature}>
-                    <img className="open-sign-pad-action__icon open-sign-pad-action__icon--clear" src={clearIcon} alt="" draggable={false} />
-                    <span>Clear</span>
-                  </button>
+                  <div className="open-sign-color-swatches" aria-label="Signature color">
+                    {signatureColors.map((color) => (
+                      <button
+                        className="open-sign-color-swatch"
+                        type="button"
+                        key={color.value}
+                        aria-label={`${color.label} signature color`}
+                        aria-pressed={signatureColor === color.value}
+                        data-active={signatureColor === color.value ? 'true' : undefined}
+                        style={{ backgroundColor: color.value }}
+                        onClick={() => selectSignatureColor(color.value)}
+                      />
+                    ))}
+                  </div>
+
+                  <div className="open-sign-pad-actions__commands">
+                    <button className="open-sign-pad-action" type="button" onClick={undoSignature} disabled={!hasSignature}>
+                      <img className="open-sign-pad-action__icon" src={undoIcon} alt="" draggable={false} />
+                      <span>Undo</span>
+                    </button>
+                    <button className="open-sign-pad-action" type="button" onClick={clearSignature} disabled={!hasSignature}>
+                      <img className="open-sign-pad-action__icon open-sign-pad-action__icon--clear" src={clearIcon} alt="" draggable={false} />
+                      <span>Clear</span>
+                    </button>
+                  </div>
                 </div>
               </div>
 
