@@ -4,6 +4,8 @@ A small React prototype for the MIRA SOS bottom drawer flow.
 
 It starts with a Figma-matched green trigger button and opens a bottom drawer with a 64px animated SOS beacon and four support actions.
 
+Live demo: `https://shedsgns.github.io/mira-drawer/`
+
 ## Features
 
 - Bottom drawer opening from the bottom
