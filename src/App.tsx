@@ -107,7 +107,7 @@ function HelpDrawer({ drawer = drawerTabs[0], isOpen = false, onSelect }: HelpDr
             <span className="sos-ripple sos-ripple--late" aria-hidden="true" />
             <span className="sos-ring" aria-hidden="true" />
             <span className="sos-core">
-              <img className="sos-label" src={sosWordmark} alt="" />
+              <img className="sos-label" src={sosWordmark} alt="" draggable={false} />
             </span>
           </div>
         ) : null}
@@ -146,10 +146,10 @@ function HelpDrawer({ drawer = drawerTabs[0], isOpen = false, onSelect }: HelpDr
                   onClick={() => onSelect?.(action)}
                 >
                   <span className="help-drawer__item-main">
-                    <img className="help-drawer__item-icon" src={action.icon} alt="" />
+                    <img className="help-drawer__item-icon" src={action.icon} alt="" draggable={false} />
                     <span className="help-drawer__item-label">{action.label}</span>
                   </span>
-                  <img className="help-drawer__chevron" src={chevronIcon} alt="" />
+                  <img className="help-drawer__chevron" src={chevronIcon} alt="" draggable={false} />
                 </button>
               ))}
             </div>
@@ -157,7 +157,7 @@ function HelpDrawer({ drawer = drawerTabs[0], isOpen = false, onSelect }: HelpDr
 
           {drawer.visual === 'recap' ? (
             <div className="neural-recap-visual" aria-hidden="true">
-              <canvas className="neural-recap-visual__canvas" ref={loaderCanvasRef} />
+              <canvas className="neural-recap-visual__canvas" ref={loaderCanvasRef} draggable={false} />
             </div>
           ) : null}
         </div>
