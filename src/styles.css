@@ -429,8 +429,7 @@ select {
 }
 
 .help-drawer__item:focus-visible {
-  outline: 2px solid rgba(255, 255, 255, 0.82);
-  outline-offset: 3px;
+  outline: none;
 }
 
 .help-drawer__item-main {
