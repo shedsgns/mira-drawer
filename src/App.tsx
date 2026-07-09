@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import '@fontsource/onest/400.css';
 import '@fontsource/onest/500.css';
 import { NeuralLoader } from '../neural-loader.js';
+import SparklesPage from './pages/sparkles/SparklesPage';
 import './styles.css';
 
 import clearIcon from '../Icons/Clear.svg';
@@ -122,7 +123,7 @@ function HelpDrawer({ drawer = drawerTabs[0], isOpen = false, onSelect }: HelpDr
   const signatureStrokesRef = useRef<SignatureStroke[]>([]);
   const currentSignatureStrokeRef = useRef<SignaturePoint[] | null>(null);
   const lastSignaturePointRef = useRef<SignaturePoint | null>(null);
-  const [signatureColor, setSignatureColor] = useState(signatureColors[0].value);
+  const [signatureColor, setSignatureColor] = useState<(typeof signatureColors)[number]['value']>(signatureColors[0].value);
   const [signatureStrokeCount, setSignatureStrokeCount] = useState(0);
   const hasSignature = signatureStrokeCount > 0;
 
@@ -546,7 +547,7 @@ if (!rootElement) {
 
 createRoot(rootElement).render(
   <StrictMode>
-    <App />
+    {window.location.pathname.replace(/^\/mira-drawer/, '').startsWith('/sparkles') ? <SparklesPage /> : <App />}
   </StrictMode>,
 );
 

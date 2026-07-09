@@ -1,0 +1,503 @@
+.finale-page {
+  --finale-bg: #363981;
+  --finale-page-bg: #151731;
+  --finale-white: #fff;
+  --finale-muted: rgba(255, 255, 255, 0.8);
+  --finale-alpha-3: rgba(255, 255, 255, 0.03);
+  --finale-alpha-6: rgba(255, 255, 255, 0.06);
+  --finale-alpha-12: rgba(255, 255, 255, 0.12);
+  --finale-green: #4eb97f;
+  width: 100%;
+  min-height: 100vh;
+  padding: 0 0 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  background: var(--finale-page-bg);
+  color: var(--finale-white);
+  overflow: auto;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.finale-page button {
+  font: inherit;
+}
+
+.finale-screen {
+  width: min(100vw, 393px);
+  min-height: min(calc(100vh - 58px), 852px);
+  height: min(calc(100vh - 58px), 852px);
+  flex: 0 0 auto;
+  position: relative;
+  overflow: hidden;
+  background: var(--finale-bg);
+  isolation: isolate;
+}
+
+.finale-statusbar {
+  width: 393px;
+  height: 50px;
+  overflow: hidden;
+}
+
+.finale-statusbar img {
+  width: 393px;
+  height: 62px;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+
+.finale-header {
+  height: 75px;
+  padding: 15px 20px 20px;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+}
+
+.finale-icon-button {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.finale-icon-button img {
+  width: 40px;
+  height: 40px;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+
+.finale-intro {
+  padding: 20px 20px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.finale-intro h1,
+.finale-intro p,
+.finale-daily h2,
+.finale-week-card p,
+.finale-countdown p {
+  margin: 0;
+}
+
+.finale-intro h1 {
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.finale-intro p {
+  margin-top: 8px;
+  color: var(--finale-muted);
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.finale-sos {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+
+.finale-sos img {
+  width: 40px;
+  height: 40px;
+  display: block;
+}
+
+.finale-separator {
+  width: 100%;
+  height: 1px;
+  background: repeating-linear-gradient(
+    to right,
+    var(--finale-alpha-12) 0,
+    var(--finale-alpha-12) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+}
+
+.finale-session {
+  padding: 25px 20px;
+}
+
+.finale-session__cta {
+  width: 100%;
+  height: 56px;
+  padding: 0 14px 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 0;
+  border-radius: 16px;
+  color: var(--finale-white);
+  background:
+    radial-gradient(130% 150% at 107% -30%, #4eb97f 0%, #47a0af 50%, #4086de 100%);
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0.32px;
+}
+
+.finale-session__cta img {
+  width: 28px;
+  height: 28px;
+  display: block;
+}
+
+.finale-week-card {
+  min-height: 96px;
+  margin-top: 4px;
+  padding: 16px;
+  position: relative;
+  border-radius: 16px;
+  background: var(--finale-alpha-6);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.finale-week-card__checks {
+  display: flex;
+  gap: 8px;
+}
+
+.finale-week-card__checks img {
+  width: 32px;
+  height: 32px;
+  display: block;
+}
+
+.finale-week-card p {
+  margin-top: 12px;
+  color: var(--finale-muted);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.finale-edit {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+}
+
+.finale-edit img {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.finale-daily {
+  padding: 24px 20px 0;
+}
+
+.finale-daily__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.finale-daily h2 {
+  color: var(--finale-white);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+}
+
+.finale-today {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--finale-muted);
+  font-size: 12px;
+  letter-spacing: 0.12px;
+}
+
+.finale-progress-ring {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  position: relative;
+  color: var(--finale-white);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12px;
+}
+
+.finale-spinner-icon {
+  width: 40px;
+  height: 40px;
+  display: block;
+}
+
+.finale-spinner-wrap {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  position: relative;
+  color: var(--finale-white);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12px;
+}
+
+.finale-spinner-wrap span {
+  position: absolute;
+}
+
+.finale-progress-ring svg {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+}
+
+.finale-progress-ring circle {
+  fill: none;
+  stroke-width: 3px;
+}
+
+.finale-progress-ring__track {
+  stroke: rgba(255, 255, 255, 0.18);
+}
+
+.finale-progress-ring__value {
+  stroke: var(--finale-green);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 420ms ease;
+}
+
+.finale-task-grid {
+  margin-top: 17px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.finale-task-card {
+  min-height: 112px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  border: 0;
+  border-radius: 16px;
+  color: var(--finale-white);
+  background: var(--finale-alpha-6);
+  cursor: pointer;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color 180ms ease,
+    transform 160ms ease;
+}
+
+.finale-task-card:active {
+  transform: scale(0.985);
+}
+
+.finale-task-card__icon {
+  width: 32px;
+  height: 32px;
+  display: block;
+}
+
+.finale-task-card__icon img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.finale-task-card__title {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0.28px;
+}
+
+.finale-countdown {
+  width: calc(100% - 40px);
+  min-height: 72px;
+  position: absolute;
+  left: 20px;
+  bottom: 72px;
+  padding: 8px 8px 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 16px;
+  background: var(--finale-alpha-3);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.finale-countdown__copy {
+  width: 214px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.finale-countdown__tick {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+}
+
+.finale-countdown__tick img {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.finale-countdown p {
+  color: var(--finale-white);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0.28px;
+}
+
+.finale-countdown__number {
+  width: 79px;
+  height: 56px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  border-radius: 12px;
+  background: var(--finale-alpha-3);
+  text-align: center;
+}
+
+.finale-countdown__number strong {
+  display: block;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.finale-countdown__number span {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+}
+
+.finale-browser-bar {
+  height: 52px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+.finale-browser-bar img {
+  width: 393px;
+  height: 52px;
+  display: block;
+}
+
+.finale-screen > .drawer-system {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  overflow: hidden;
+}
+
+.finale-screen > .drawer-system .drawer-positioner,
+.finale-screen > .drawer-system .help-drawer {
+  width: 100%;
+}
+
+.finale-page .finale-play-again {
+  min-height: 48px;
+  padding: 14px 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 999px;
+  color: #fff !important;
+  background: #58c987 !important;
+  box-shadow: none !important;
+  filter: none !important;
+  opacity: 1 !important;
+  mix-blend-mode: normal !important;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  font: 500 16px/20px Onest, Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0.16px;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+  transition: none;
+}
+
+.finale-page .finale-play-again:active {
+  transform: none;
+}
+
+.finale-page .finale-play-again:focus-visible {
+  outline: none;
+}
+
+@media (max-height: 760px) {
+  .finale-screen {
+    overflow-y: auto;
+  }
+
+  .finale-countdown,
+  .finale-browser-bar {
+    position: relative;
+    left: auto;
+    right: auto;
+    bottom: auto;
+  }
+
+  .finale-countdown {
+    margin: 96px 20px 20px;
+  }
+}
+
+@media (min-width: 480px) {
+  .finale-screen {
+    min-height: 852px;
+    height: 852px;
+    box-shadow: none;
+  }
+}
