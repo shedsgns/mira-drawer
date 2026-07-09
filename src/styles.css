@@ -184,7 +184,7 @@ select {
 
 .help-drawer {
   width: min(100vw, 393px);
-  padding: 20px 20px 64px;
+  padding: 12px 20px 64px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -245,8 +245,8 @@ select {
 }
 
 .help-drawer__handle {
-  width: 64px;
-  height: 6px;
+  width: 48px;
+  height: 4px;
   flex: 0 0 auto;
   position: relative;
   z-index: 1;
