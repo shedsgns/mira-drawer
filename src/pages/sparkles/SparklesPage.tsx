@@ -119,12 +119,10 @@ function AnimatedTaskTick() {
 
 function SparklesPage() {
   const screenRef = useRef<HTMLDivElement>(null);
-  const celebrationResetRef = useRef<number | null>(null);
   const tickRevealTimeoutsRef = useRef<number[]>([]);
   const [taskCompletion, setTaskCompletion] = useState<boolean[]>(initialTaskCompletion);
   const [revealedTaskTicks, setRevealedTaskTicks] = useState<boolean[]>(initialTaskCompletion);
   const [isSosOpen, setIsSosOpen] = useState(false);
-  const [isCelebrating, setIsCelebrating] = useState(false);
   const completedCount = taskCompletion.filter(Boolean).length;
 
   useEffect(() => {
@@ -133,9 +131,6 @@ function SparklesPage() {
 
   useEffect(() => {
     return () => {
-      if (celebrationResetRef.current !== null) {
-        window.clearTimeout(celebrationResetRef.current);
-      }
       tickRevealTimeoutsRef.current.forEach((timeoutId) => window.clearTimeout(timeoutId));
     };
   }, []);
@@ -176,23 +171,10 @@ function SparklesPage() {
   }
 
   function playFinale() {
-    if (celebrationResetRef.current !== null) {
-      window.clearTimeout(celebrationResetRef.current);
-      celebrationResetRef.current = null;
-    }
     tickRevealTimeoutsRef.current.forEach((timeoutId) => window.clearTimeout(timeoutId));
     tickRevealTimeoutsRef.current = [];
 
-    function finishCelebration() {
-      if (celebrationResetRef.current !== null) {
-        window.clearTimeout(celebrationResetRef.current);
-        celebrationResetRef.current = null;
-      }
-      setIsCelebrating(false);
-    }
-
     setRevealedTaskTicks(dailyTasks.map(() => false));
-    setIsCelebrating(false);
     tickRevealTimeoutsRef.current = [100, 380, 660].map((delay, index) =>
       window.setTimeout(() => {
         setRevealedTaskTicks(dailyTasks.map((_, taskIndex) => taskIndex <= index));
@@ -200,19 +182,16 @@ function SparklesPage() {
     );
     tickRevealTimeoutsRef.current.push(
       window.setTimeout(() => {
-        setIsCelebrating(true);
         window.MiraCelebration?.play({
           container: screenRef.current ?? undefined,
           zIndex: 30,
-          onDone: finishCelebration,
         });
-        celebrationResetRef.current = window.setTimeout(finishCelebration, 5000);
       }, 980),
     );
   }
 
   return (
-    <main className={`finale-page ${isCelebrating ? 'finale-page--celebrating' : ''}`}>
+    <main className="finale-page">
       <section className="finale-screen" ref={screenRef} aria-label="MIRA daily plan">
         <StatusBar />
 
