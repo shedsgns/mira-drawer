@@ -103,7 +103,7 @@ const drawerTabs: readonly DrawerTab[] = [
     id: 'sign',
     label: 'Open Sign drawer',
     title: ['One promise:', 'to yourself, not to me.'],
-    description: ['You don’t have to figure this out alone. In three sessions, we’ll unpack what’s really going on and what to do next.'],
+    description: ['You don’t have to do this alone.', 'Three sessions. We’ll find a way.'],
     visual: 'sign',
   },
 ];
@@ -420,7 +420,7 @@ function HelpDrawer({ drawer = drawerTabs[0], isOpen = false, onSelect }: HelpDr
 
                   <div className="open-sign-pad-actions__commands">
                     <button className="open-sign-pad-action" type="button" onClick={undoSignature} disabled={!hasSignature}>
-                      <img className="open-sign-pad-action__icon" src={undoIcon} alt="" draggable={false} />
+                      <img className="open-sign-pad-action__icon open-sign-pad-action__icon--undo" src={undoIcon} alt="" draggable={false} />
                       <span>Undo</span>
                     </button>
                     <button className="open-sign-pad-action" type="button" onClick={clearSignature} disabled={!hasSignature}>
