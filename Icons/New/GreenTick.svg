@@ -1,4 +1,19 @@
 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<style>
+@keyframes tick-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.tick-path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: tick-draw 280ms cubic-bezier(0.22, 1, 0.36, 1) 80ms forwards;
+}
+</style>
 <rect width="32" height="32" rx="16" fill="#4EB97F"/>
-<path d="M21.8069 10.7412C22.1714 10.3768 22.7627 10.3767 23.1272 10.7412C23.4915 11.1057 23.4916 11.6971 23.1272 12.0615L13.8225 21.3652C13.4583 21.7295 12.8666 21.7298 12.5022 21.3652L8.60669 17.4697C8.24247 17.1053 8.24246 16.5148 8.60669 16.1504C8.9712 15.7859 9.56251 15.7859 9.927 16.1504L13.1624 19.3857L21.8069 10.7412Z" fill="white" stroke="white" stroke-width="0.4"/>
+<path class="tick-path" pathLength="1" d="M9.25 16.65L13.15 20.55L22.75 10.95" stroke="white" stroke-width="2.45" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

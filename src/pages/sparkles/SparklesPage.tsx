@@ -14,7 +14,6 @@ import skyIcon from '../../../Icons/New/Notif Icons.svg';
 import diaryIcon from '../../../Icons/New/Notif Icons-1.svg';
 import adviceIcon from '../../../Icons/New/Notif Icons-2.svg';
 import sosHomeIcon from '../../../Icons/New/SOShome.svg';
-import spinnerIcon from '../../../Icons/New/Spinner.svg';
 import statusBarIcon from '../../../Icons/New/Header_Component/Status Bar.svg';
 import sosChevronIcon from '../../../Icons/Chevron.svg';
 import sosPanicIcon from '../../../Icons/Notif Icons.svg';
@@ -56,6 +55,8 @@ const dailyTasks = [
     completed: false,
   },
 ] as const;
+
+const initialTaskCompletion = dailyTasks.map((task) => task.completed);
 
 const sosActions = [
   {
@@ -107,13 +108,36 @@ function ProgressRing({ completed }: { completed: number }) {
   );
 }
 
+function AnimatedTaskTick() {
+  return (
+    <svg className="finale-task-card__tick-svg" viewBox="0 0 32 32" aria-hidden="true">
+      <rect width="32" height="32" rx="16" />
+      <path pathLength="1" d="M9.25 16.65L13.15 20.55L22.75 10.95" />
+    </svg>
+  );
+}
+
 function SparklesPage() {
   const screenRef = useRef<HTMLDivElement>(null);
-  const [completedCount, setCompletedCount] = useState(2);
+  const celebrationResetRef = useRef<number | null>(null);
+  const tickRevealTimeoutsRef = useRef<number[]>([]);
+  const [taskCompletion, setTaskCompletion] = useState<boolean[]>(initialTaskCompletion);
+  const [revealedTaskTicks, setRevealedTaskTicks] = useState<boolean[]>(initialTaskCompletion);
   const [isSosOpen, setIsSosOpen] = useState(false);
+  const [isCelebrating, setIsCelebrating] = useState(false);
+  const completedCount = taskCompletion.filter(Boolean).length;
 
   useEffect(() => {
     document.title = 'MIRA Sparkles';
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (celebrationResetRef.current !== null) {
+        window.clearTimeout(celebrationResetRef.current);
+      }
+      tickRevealTimeoutsRef.current.forEach((timeoutId) => window.clearTimeout(timeoutId));
+    };
   }, []);
 
   useEffect(() => {
@@ -132,25 +156,63 @@ function SparklesPage() {
     };
   }, [isSosOpen]);
 
-  function completeAdviceTask() {
-    setCompletedCount(3);
-    playFinale();
+  function toggleTask(index: number) {
+    const nextValue = !taskCompletion[index];
+    setTaskCompletion((currentCompletion) => {
+      const nextCompletion = [...currentCompletion];
+      nextCompletion[index] = nextValue;
+      return nextCompletion;
+    });
+    setRevealedTaskTicks((currentTicks) => {
+      const nextTicks = [...currentTicks];
+      nextTicks[index] = nextValue;
+      return nextTicks;
+    });
   }
 
   function playSparkles() {
-    setCompletedCount(3);
+    setTaskCompletion(dailyTasks.map(() => true));
     playFinale();
   }
 
   function playFinale() {
-    window.MiraCelebration?.play({
-      container: screenRef.current ?? undefined,
-      zIndex: 30,
-    });
+    if (celebrationResetRef.current !== null) {
+      window.clearTimeout(celebrationResetRef.current);
+      celebrationResetRef.current = null;
+    }
+    tickRevealTimeoutsRef.current.forEach((timeoutId) => window.clearTimeout(timeoutId));
+    tickRevealTimeoutsRef.current = [];
+
+    function finishCelebration() {
+      if (celebrationResetRef.current !== null) {
+        window.clearTimeout(celebrationResetRef.current);
+        celebrationResetRef.current = null;
+      }
+      setIsCelebrating(false);
+    }
+
+    setRevealedTaskTicks(dailyTasks.map(() => false));
+    setIsCelebrating(false);
+    tickRevealTimeoutsRef.current = [100, 380, 660].map((delay, index) =>
+      window.setTimeout(() => {
+        setRevealedTaskTicks(dailyTasks.map((_, taskIndex) => taskIndex <= index));
+      }, delay),
+    );
+    tickRevealTimeoutsRef.current.push(
+      window.setTimeout(() => {
+        setIsCelebrating(true);
+        window.MiraCelebration?.play({
+          container: screenRef.current ?? undefined,
+          zIndex: 30,
+          onDone: finishCelebration,
+        });
+        celebrationResetRef.current = window.setTimeout(finishCelebration, 5000);
+      }, 980),
+    );
   }
 
   return (
-    <main className="finale-page">
+    <main className={`finale-page ${isCelebrating ? 'finale-page--celebrating' : ''}`}>
       <section className="finale-screen" ref={screenRef} aria-label="MIRA daily plan">
         <StatusBar />
 
@@ -201,30 +263,30 @@ function SparklesPage() {
             <h2 id="finale-daily-title">Daily minimum</h2>
             <div className="finale-today">
               <span>today</span>
-              {completedCount === 2 ? (
-                <span className="finale-spinner-wrap" aria-label="2 of 3 tasks completed">
-                  <img className="finale-spinner-icon" src={spinnerIcon} alt="" draggable={false} />
-                  <span>2/3</span>
-                </span>
-              ) : (
-                <ProgressRing completed={completedCount} />
-              )}
+              <ProgressRing completed={completedCount} />
             </div>
           </div>
 
           <div className="finale-task-grid">
             {dailyTasks.map((task, index) => {
-              const isCompleted = index < completedCount;
-              const isAdvice = task.id === 'advice';
+              const isCompleted = taskCompletion[index];
+              const isTickRevealed = revealedTaskTicks[index];
 
               return (
                 <button
-                  className="finale-task-card"
+                  className={`finale-task-card ${
+                    isCompleted && isTickRevealed ? 'finale-task-card--tick-revealed' : ''
+                  }`}
                   key={task.id}
                   type="button"
                   aria-pressed={isCompleted}
-                  onClick={isAdvice ? completeAdviceTask : undefined}
+                  onClick={() => toggleTask(index)}
                 >
+                  {isCompleted && isTickRevealed ? (
+                    <span className="finale-task-card__done" aria-hidden="true">
+                      <AnimatedTaskTick />
+                    </span>
+                  ) : null}
                   <span className="finale-task-card__icon">
                     <img src={task.icon} alt="" draggable={false} />
                   </span>
