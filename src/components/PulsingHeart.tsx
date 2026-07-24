@@ -7,55 +7,52 @@ const HEART_PATH =
 
 function HeartWave({ className }: { className: string }) {
   return (
-    <svg
-      className={`pulsing-heart__wave ${className}`}
-      viewBox="0 0 54 49.13"
-      fill="none"
-      aria-hidden="true"
-    >
-      <path
-        className="pulsing-heart__wave-glow"
-        d={HEART_PATH}
-        pathLength="1"
-        vectorEffect="non-scaling-stroke"
-      />
-      <path
-        className="pulsing-heart__wave-edge"
-        d={HEART_PATH}
-        pathLength="1"
-        vectorEffect="non-scaling-stroke"
-      />
-      <path
-        className="pulsing-heart__wave-sheen pulsing-heart__wave-sheen--tail-far"
-        d={HEART_PATH}
-        pathLength="1"
-        vectorEffect="non-scaling-stroke"
-      />
-      <path
-        className="pulsing-heart__wave-sheen pulsing-heart__wave-sheen--tail-soft"
-        d={HEART_PATH}
-        pathLength="1"
-        vectorEffect="non-scaling-stroke"
-      />
-      <path
-        className="pulsing-heart__wave-sheen pulsing-heart__wave-sheen--tail-mid"
-        d={HEART_PATH}
-        pathLength="1"
-        vectorEffect="non-scaling-stroke"
-      />
-      <path
-        className="pulsing-heart__wave-sheen pulsing-heart__wave-sheen--tail-near"
-        d={HEART_PATH}
-        pathLength="1"
-        vectorEffect="non-scaling-stroke"
-      />
-      <path
-        className="pulsing-heart__wave-sheen pulsing-heart__wave-sheen--glint"
-        d={HEART_PATH}
-        pathLength="1"
-        vectorEffect="non-scaling-stroke"
-      />
-    </svg>
+    <span className={`pulsing-heart__wave ${className}`} aria-hidden="true">
+      <svg className="pulsing-heart__wave-svg" viewBox="0 0 54 49.13" fill="none">
+        <path
+          className="pulsing-heart__wave-glow"
+          d={HEART_PATH}
+          pathLength="100"
+          vectorEffect="non-scaling-stroke"
+        />
+        <path
+          className="pulsing-heart__wave-edge"
+          d={HEART_PATH}
+          pathLength="100"
+          vectorEffect="non-scaling-stroke"
+        />
+        <path
+          className="pulsing-heart__wave-sheen pulsing-heart__wave-sheen--tail-far"
+          d={HEART_PATH}
+          pathLength="100"
+          vectorEffect="non-scaling-stroke"
+        />
+        <path
+          className="pulsing-heart__wave-sheen pulsing-heart__wave-sheen--tail-soft"
+          d={HEART_PATH}
+          pathLength="100"
+          vectorEffect="non-scaling-stroke"
+        />
+        <path
+          className="pulsing-heart__wave-sheen pulsing-heart__wave-sheen--tail-mid"
+          d={HEART_PATH}
+          pathLength="100"
+          vectorEffect="non-scaling-stroke"
+        />
+        <path
+          className="pulsing-heart__wave-sheen pulsing-heart__wave-sheen--tail-near"
+          d={HEART_PATH}
+          pathLength="100"
+          vectorEffect="non-scaling-stroke"
+        />
+        <path
+          className="pulsing-heart__wave-sheen pulsing-heart__wave-sheen--glint"
+          d={HEART_PATH}
+          pathLength="100"
+          vectorEffect="non-scaling-stroke"
+        />
+      </svg>
+    </span>
   );
 }
 
