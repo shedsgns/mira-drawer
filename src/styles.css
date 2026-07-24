@@ -273,6 +273,622 @@ select {
   gap: 18px;
 }
 
+.warning-drawer__content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.help-drawer--warning {
+  max-height: 100dvh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  background: #222459;
+  box-shadow: none;
+}
+
+.help-drawer--warning .help-drawer__background {
+  background: #222459;
+}
+
+.help-drawer--warning .help-drawer__background::after {
+  display: none;
+}
+
+.help-drawer--warning::-webkit-scrollbar {
+  display: none;
+}
+
+.pulsing-heart {
+  --warning-heart-cycle: 4.8s;
+  --warning-heart-beat: 2.8s;
+  width: 124px;
+  height: 124px;
+  flex: 0 0 124px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+  pointer-events: none;
+  -webkit-touch-callout: none;
+  -webkit-user-drag: none;
+  user-select: none;
+  margin-bottom: -12px;
+  animation: warning-heart-float 7.2s cubic-bezier(0.37, 0, 0.63, 1) infinite;
+  will-change: transform;
+}
+
+.pulsing-heart__ambient {
+  width: 54px;
+  height: 49.13px;
+  position: absolute;
+  z-index: 0;
+  background: rgba(255, 55, 65, 0.62);
+  -webkit-mask: url("../Icons/Heart.svg") center / contain no-repeat;
+  mask: url("../Icons/Heart.svg") center / contain no-repeat;
+  filter: blur(9px);
+  animation: warning-heart-ambient var(--warning-heart-beat) ease-in-out infinite;
+  will-change: opacity, transform;
+}
+
+.pulsing-heart__dust {
+  display: none;
+  position: absolute;
+  inset: 12px;
+  z-index: 1;
+  opacity: 0.48;
+  background:
+    radial-gradient(circle at 15% 48%, rgba(255, 245, 246, 0.82) 0 0.75px, transparent 1.25px),
+    radial-gradient(circle at 25% 23%, rgba(255, 224, 228, 0.72) 0 0.65px, transparent 1.2px),
+    radial-gradient(circle at 38% 78%, rgba(255, 245, 246, 0.66) 0 0.8px, transparent 1.35px),
+    radial-gradient(circle at 62% 17%, rgba(255, 235, 238, 0.76) 0 0.65px, transparent 1.15px),
+    radial-gradient(circle at 73% 72%, rgba(255, 245, 246, 0.74) 0 0.75px, transparent 1.3px),
+    radial-gradient(circle at 88% 42%, rgba(255, 224, 228, 0.68) 0 0.7px, transparent 1.25px);
+  animation: warning-heart-dust-near 8.6s cubic-bezier(0.37, 0, 0.63, 1) infinite;
+  will-change: opacity, transform;
+}
+
+.pulsing-heart__dust--far {
+  inset: 5px;
+  opacity: 0.28;
+  transform: rotate(18deg);
+  animation-name: warning-heart-dust-far;
+  animation-duration: 11.2s;
+}
+
+.pulsing-heart__sparkle {
+  --warning-sparkle-peak: 0.88;
+  display: none;
+  width: 9px;
+  height: 9px;
+  position: absolute;
+  z-index: 3;
+  opacity: 0;
+  background:
+    linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.06) 28%, #fff 50%, rgba(255, 255, 255, 0.06) 72%, transparent 100%) center / 100% 1px no-repeat,
+    linear-gradient(0deg, transparent 0%, rgba(255, 255, 255, 0.06) 28%, #fff 50%, rgba(255, 255, 255, 0.06) 72%, transparent 100%) center / 1px 100% no-repeat,
+    radial-gradient(circle, rgba(255, 255, 255, 0.98) 0 0.75px, rgba(255, 255, 255, 0.24) 1px, transparent 2.25px);
+  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.42));
+  animation: warning-heart-sparkle 5.4s ease-in-out infinite;
+  will-change: opacity, transform;
+}
+
+.pulsing-heart__sparkle--one {
+  top: 25px;
+  left: 25px;
+  animation-delay: -1.1s;
+}
+
+.pulsing-heart__sparkle--two {
+  --warning-sparkle-peak: 0.58;
+  top: 43px;
+  right: 20px;
+  width: 7px;
+  height: 7px;
+  animation-duration: 6.3s;
+  animation-delay: -4.2s;
+}
+
+.pulsing-heart__sparkle--three {
+  --warning-sparkle-peak: 0.42;
+  bottom: 24px;
+  left: 38px;
+  width: 5px;
+  height: 5px;
+  animation-duration: 5.8s;
+  animation-delay: -2.8s;
+}
+
+.pulsing-heart__wave {
+  width: 54px;
+  height: 49.13px;
+  position: absolute;
+  z-index: 1;
+  overflow: visible;
+  opacity: 0;
+  transform-origin: center;
+  animation: warning-heart-wave var(--warning-heart-cycle) cubic-bezier(0.37, 0, 0.63, 1) infinite;
+  animation-direction: alternate;
+  will-change: opacity, transform;
+}
+
+.pulsing-heart__wave-glow {
+  fill: rgba(231, 0, 11, 0.3);
+  stroke: rgba(255, 54, 64, 0.46);
+  stroke-width: 5px;
+  stroke-linejoin: round;
+  filter: blur(5px);
+}
+
+.pulsing-heart__wave-edge {
+  fill: rgba(255, 88, 97, 0.035);
+  stroke: rgba(255, 135, 142, 0.44);
+  stroke-width: 1px;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 3px rgba(255, 84, 93, 0.2));
+}
+
+.pulsing-heart__wave-sheen {
+  --warning-sheen-wave-delay: 0s;
+  --warning-sheen-layer-delay: 0s;
+  fill: none;
+  stroke: rgba(255, 70, 80, 0.94);
+  stroke-width: 1px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 0.09 0.91;
+  stroke-dashoffset: 0;
+  animation: warning-heart-wave-sheen 7.8s linear infinite;
+  animation-delay: calc(var(--warning-sheen-wave-delay) + var(--warning-sheen-layer-delay));
+  will-change: stroke-dashoffset;
+}
+
+.pulsing-heart__wave-sheen--tail-far {
+  --warning-sheen-layer-delay: 0s;
+  opacity: 0.07;
+}
+
+.pulsing-heart__wave-sheen--tail-soft {
+  --warning-sheen-layer-delay: -0.14s;
+  opacity: 0.13;
+}
+
+.pulsing-heart__wave-sheen--tail-mid {
+  --warning-sheen-layer-delay: -0.28s;
+  opacity: 0.22;
+}
+
+.pulsing-heart__wave-sheen--tail-near {
+  --warning-sheen-layer-delay: -0.42s;
+  opacity: 0.36;
+}
+
+.pulsing-heart__wave-sheen--glint {
+  --warning-sheen-layer-delay: -0.56s;
+  opacity: 0.62;
+  filter: drop-shadow(0 0 2px rgba(255, 38, 50, 0.34));
+}
+
+.pulsing-heart__wave--late {
+  --warning-sheen-wave-delay: -3.1s;
+}
+
+.pulsing-heart__wave--late .pulsing-heart__wave-sheen {
+  animation-duration: 9.4s;
+}
+
+.pulsing-heart__wave--late {
+  animation-duration: 5.35s;
+  animation-delay: -2.65s;
+}
+
+.pulsing-heart__core {
+  width: 54px;
+  height: 49.13px;
+  position: absolute;
+  z-index: 2;
+  display: block;
+  isolation: isolate;
+  transform-origin: 50% 55%;
+  animation: warning-heart-beat var(--warning-heart-beat) cubic-bezier(0.37, 0, 0.63, 1) infinite;
+  will-change: transform;
+}
+
+.pulsing-heart__core::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  -webkit-mask: url("../Icons/Heart.svg") center / contain no-repeat;
+  mask: url("../Icons/Heart.svg") center / contain no-repeat;
+}
+
+.pulsing-heart__core::before {
+  background: radial-gradient(70% 58% at 36% 20%, rgba(255, 255, 255, 0.58), rgba(255, 255, 255, 0.1) 48%, transparent 72%);
+  mix-blend-mode: screen;
+  opacity: 0.18;
+  animation: warning-heart-glass var(--warning-heart-beat) cubic-bezier(0.37, 0, 0.63, 1) infinite;
+  will-change: opacity, transform;
+}
+
+.pulsing-heart__image {
+  width: 54px;
+  height: 49.13px;
+  position: relative;
+  z-index: 1;
+  display: block;
+  filter:
+    drop-shadow(0 0 5px rgba(255, 242, 244, 0.2))
+    drop-shadow(0 0 10px rgba(255, 210, 216, 0.12));
+  pointer-events: none;
+}
+
+.pulsing-heart__glass-shell {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background:
+    linear-gradient(158deg, rgba(255, 255, 255, 0.48) 0%, rgba(255, 255, 255, 0.12) 22%, transparent 42%),
+    radial-gradient(78% 42% at 50% 100%, rgba(255, 255, 255, 0.18) 0%, transparent 68%),
+    radial-gradient(46% 34% at 70% 72%, rgba(255, 255, 255, 0.1) 0%, transparent 75%);
+  -webkit-mask: url("../Icons/Heart.svg") center / contain no-repeat;
+  mask: url("../Icons/Heart.svg") center / contain no-repeat;
+  opacity: 0.3;
+  pointer-events: none;
+  animation: warning-heart-glass-shell var(--warning-heart-beat) cubic-bezier(0.37, 0, 0.63, 1) infinite;
+  will-change: opacity, transform;
+}
+
+.pulsing-heart__glass-rim {
+  width: 54px;
+  height: 49.13px;
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  overflow: visible;
+  opacity: 0.42;
+  pointer-events: none;
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.2));
+  animation: warning-heart-glass-rim var(--warning-heart-beat) cubic-bezier(0.37, 0, 0.63, 1) infinite;
+  will-change: opacity;
+}
+
+.pixel-heart__canvas {
+  width: 54px;
+  height: 49.13px;
+  position: relative;
+  z-index: 1;
+  display: block;
+  image-rendering: pixelated;
+  filter:
+    drop-shadow(0 0 5px rgba(255, 242, 244, 0.18))
+    drop-shadow(0 0 10px rgba(255, 210, 216, 0.1));
+}
+
+.pulsing-heart[data-active="false"] *,
+.pulsing-heart[data-active="false"]::before,
+.pulsing-heart[data-active="false"]::after,
+.pulsing-heart[data-active="false"] .pulsing-heart__core::before {
+  animation-play-state: paused;
+}
+
+.pulsing-heart[data-active="false"] {
+  animation-play-state: paused;
+}
+
+@keyframes warning-heart-float {
+  0%,
+  100% {
+    transform: translate3d(0, 1px, 0) rotate(-0.35deg);
+  }
+
+  35% {
+    transform: translate3d(1.5px, -2.5px, 0) rotate(0.3deg);
+  }
+
+  68% {
+    transform: translate3d(-1px, -1px, 0) rotate(-0.15deg);
+  }
+}
+
+@keyframes warning-heart-dust-near {
+  0%,
+  100% {
+    opacity: 0.34;
+    transform: translate3d(-3px, 3px, 0) rotate(-1.5deg);
+  }
+
+  42% {
+    opacity: 0.54;
+    transform: translate3d(3.5px, -4px, 0) rotate(1.5deg);
+  }
+
+  72% {
+    opacity: 0.4;
+    transform: translate3d(-2px, -1.5px, 0) rotate(0deg);
+  }
+}
+
+@keyframes warning-heart-dust-far {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: translate3d(3px, -2px, 0) rotate(18.5deg);
+  }
+
+  48% {
+    opacity: 0.34;
+    transform: translate3d(-3.5px, 3.5px, 0) rotate(16deg);
+  }
+
+  78% {
+    opacity: 0.25;
+    transform: translate3d(2px, 0.5px, 0) rotate(17.5deg);
+  }
+}
+
+@keyframes warning-heart-sparkle {
+  0%,
+  14%,
+  54%,
+  100% {
+    opacity: 0;
+    transform: translate3d(-1px, 2px, 0) scale(0.62) rotate(-7deg);
+  }
+
+  25% {
+    opacity: var(--warning-sparkle-peak);
+    transform: translate3d(0.5px, 0, 0) scale(1) rotate(0deg);
+  }
+
+  35% {
+    opacity: 0.2;
+    transform: translate3d(2px, -2.5px, 0) scale(0.78) rotate(6deg);
+  }
+}
+
+@keyframes warning-heart-glass {
+  0%,
+  27%,
+  100% {
+    opacity: 0.18;
+    transform: scale(1);
+  }
+
+  6% {
+    opacity: 0.42;
+    transform: scale(1.02);
+  }
+
+  12% {
+    opacity: 0.22;
+    transform: scale(0.998);
+  }
+
+  18% {
+    opacity: 0.31;
+    transform: scale(1.01);
+  }
+}
+
+@keyframes warning-heart-glass-shell {
+  0%,
+  27%,
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+
+  6% {
+    opacity: 0.56;
+    transform: scale(1.012);
+  }
+
+  12% {
+    opacity: 0.34;
+    transform: scale(0.998);
+  }
+
+  18% {
+    opacity: 0.45;
+    transform: scale(1.006);
+  }
+}
+
+@keyframes warning-heart-glass-rim {
+  0%,
+  27%,
+  100% {
+    opacity: 0.42;
+  }
+
+  6% {
+    opacity: 0.76;
+  }
+
+  12% {
+    opacity: 0.48;
+  }
+
+  18% {
+    opacity: 0.62;
+  }
+}
+
+@keyframes warning-heart-beat {
+  0% {
+    transform: scale(1);
+  }
+
+  6% {
+    transform: scale(1.075);
+  }
+
+  12% {
+    transform: scale(0.995);
+  }
+
+  18% {
+    transform: scale(1.035);
+  }
+
+  27%,
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes warning-heart-wave {
+  0% {
+    opacity: 0.38;
+    transform: scale(1.04);
+  }
+
+  38% {
+    opacity: 0.72;
+    transform: scale(1.38);
+  }
+
+  100% {
+    opacity: 0.14;
+    transform: scale(2.08);
+  }
+}
+
+@keyframes warning-heart-wave-sheen {
+  to {
+    stroke-dashoffset: -1;
+  }
+}
+
+@keyframes warning-heart-ambient {
+  0%,
+  27%,
+  100% {
+    opacity: 0.52;
+    transform: scale(0.94);
+  }
+
+  6% {
+    opacity: 0.86;
+    transform: scale(1.13);
+  }
+
+  12% {
+    opacity: 0.58;
+    transform: scale(0.98);
+  }
+
+  18% {
+    opacity: 0.72;
+    transform: scale(1.07);
+  }
+}
+
+.warning-drawer__copy {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.warning-drawer__title + .warning-drawer__description {
+  margin-top: 14px;
+}
+
+.warning-drawer__description + .warning-drawer__notice {
+  margin-top: 20px;
+}
+
+.warning-drawer__title {
+  width: 100%;
+  margin: 0;
+  color: var(--mira-white);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 32px;
+  letter-spacing: 0.48px;
+  text-align: center;
+}
+
+.warning-drawer__description,
+.warning-drawer__notice p {
+  width: 100%;
+  margin: 0;
+  color: var(--mira-white);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.28px;
+  overflow-wrap: anywhere;
+}
+
+.warning-drawer__description {
+  opacity: 0.8;
+  text-align: center;
+}
+
+.warning-drawer__notice {
+  width: 100%;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--mira-white-06);
+}
+
+.warning-drawer__notice-icon {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  display: block;
+  pointer-events: none;
+}
+
+.warning-drawer__action {
+  width: 100%;
+  height: 64px;
+  padding: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  color: var(--mira-white);
+  border: 0;
+  border-radius: 16px;
+  background: var(--mira-green);
+  cursor: pointer;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0.16px;
+  text-align: center;
+  white-space: nowrap;
+  transition: transform 160ms ease;
+}
+
+.warning-drawer__action:active {
+  transform: scale(0.985);
+}
+
+.warning-drawer__action:focus-visible {
+  outline: none;
+}
+
 .help-drawer__sos {
   flex: 0 0 auto;
   /* clearance so the ripples stay inside the SOS zone, off the handle and title */
@@ -923,6 +1539,12 @@ select {
   .open-sign-pad {
     height: 184px;
   }
+
+  .pulsing-heart {
+    width: 112px;
+    height: 112px;
+    flex-basis: 112px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -930,6 +1552,16 @@ select {
   .sos-ring,
   .sos-core,
   .sos-core::before,
+  .pulsing-heart,
+  .pulsing-heart__ambient,
+  .pulsing-heart__dust,
+  .pulsing-heart__sparkle,
+  .pulsing-heart__wave,
+  .pulsing-heart__wave-sheen,
+  .pulsing-heart__core,
+  .pulsing-heart__core::before,
+  .pulsing-heart__glass-shell,
+  .pulsing-heart__glass-rim,
   .help-drawer__ellipsis span,
   .help-drawer__background,
   .help-drawer__background::after {
@@ -948,6 +1580,45 @@ select {
     display: none;
   }
 
+  .pulsing-heart__wave {
+    display: none;
+  }
+
+  .pulsing-heart__wave-sheen {
+    display: none;
+  }
+
+  .pulsing-heart__dust {
+    display: none;
+  }
+
+  .pulsing-heart__sparkle {
+    display: none;
+  }
+
+  .pulsing-heart__ambient {
+    opacity: 0.52;
+    transform: scale(1);
+  }
+
+  .pulsing-heart__core {
+    transform: scale(1);
+  }
+
+  .pulsing-heart__core::before {
+    opacity: 0.18;
+    transform: scale(1);
+  }
+
+  .pulsing-heart__glass-shell {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+
+  .pulsing-heart__glass-rim {
+    opacity: 0.42;
+  }
+
   .sos-core::before {
     opacity: 0.45;
     transform: scale(1);
@@ -956,7 +1627,8 @@ select {
   .help-drawer__item,
   .open-sign-pad-action,
   .open-sign-submit,
-  .open-sign-skip {
+  .open-sign-skip,
+  .warning-drawer__action {
     transition: none;
   }
 

@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import '@fontsource/onest/400.css';
 import '@fontsource/onest/500.css';
 import { NeuralLoader } from '../neural-loader.js';
+import { WarningDrawer } from './components/WarningDrawer';
 import SparklesPage from './pages/sparkles/SparklesPage';
 import './styles.css';
 
@@ -32,7 +33,7 @@ type SignatureStroke = {
   points: SignaturePoint[];
 };
 
-type DrawerTabId = 'support' | 'recap' | 'sign';
+type DrawerTabId = 'support' | 'recap' | 'sign' | 'warning';
 
 type DrawerTabBase = {
   id: DrawerTabId;
@@ -59,7 +60,13 @@ type SignDrawerTab = DrawerTabBase & {
   actions?: never;
 };
 
-type DrawerTab = ActionDrawerTab | RecapDrawerTab | SignDrawerTab;
+type WarningDrawerTab = DrawerTabBase & {
+  visual: 'warning';
+  actions?: never;
+  description?: never;
+};
+
+type DrawerTab = ActionDrawerTab | RecapDrawerTab | SignDrawerTab | WarningDrawerTab;
 
 type HelpDrawerProps = {
   drawer?: DrawerTab;
@@ -106,6 +113,12 @@ const drawerTabs: readonly DrawerTab[] = [
     title: ['One promise:', 'to yourself, not to me.'],
     description: ['You don’t have to do this alone.', 'Three sessions. We’ll find a way.'],
     visual: 'sign',
+  },
+  {
+    id: 'warning',
+    label: 'Open Heart drawer',
+    title: ['Before we begin'],
+    visual: 'warning',
   },
 ];
 
@@ -532,7 +545,11 @@ function App() {
         <button className="drawer-overlay" type="button" aria-label="Close drawer" onClick={closeDrawer} />
 
         <div className="drawer-positioner" ref={drawerRef} role="dialog" aria-modal="true" aria-labelledby="help-drawer-title" tabIndex={-1}>
-          <HelpDrawer drawer={activeDrawer} isOpen={isDrawerOpen} />
+          {activeDrawer.id === 'warning' ? (
+            <WarningDrawer isOpen={isDrawerOpen} onAcknowledge={closeDrawer} />
+          ) : (
+            <HelpDrawer drawer={activeDrawer} isOpen={isDrawerOpen} />
+          )}
         </div>
       </div>
     </main>
