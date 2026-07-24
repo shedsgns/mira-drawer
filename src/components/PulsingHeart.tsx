@@ -1,5 +1,3 @@
-import heartSource from '../../Icons/Heart.svg';
-
 type PulsingHeartProps = {
   active: boolean;
 };
@@ -79,14 +77,28 @@ export function PulsingHeart({ active }: PulsingHeartProps) {
       <span className="pulsing-heart__sparkle pulsing-heart__sparkle--two" aria-hidden="true" />
       <span className="pulsing-heart__sparkle pulsing-heart__sparkle--three" aria-hidden="true" />
       <span className="pulsing-heart__core">
-        <img
+        <svg
           className="pulsing-heart__image"
-          src={heartSource}
-          alt=""
-          width="54"
-          height="49.13"
-          draggable={false}
-        />
+          viewBox="0 0 54 49.13"
+          preserveAspectRatio="xMidYMid meet"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <defs>
+            <radialGradient
+              id="heart-core-fill"
+              cx="0"
+              cy="0"
+              r="1"
+              gradientUnits="userSpaceOnUse"
+              gradientTransform="translate(27 24.565) rotate(90) scale(24.565 27)"
+            >
+              <stop stopColor="#ffa2a2" />
+              <stop offset="1" stopColor="#e7000b" />
+            </radialGradient>
+          </defs>
+          <path d={HEART_PATH} fill="url(#heart-core-fill)" />
+        </svg>
         <span className="pulsing-heart__glass-shell" aria-hidden="true" />
         <svg
           className="pulsing-heart__glass-rim"

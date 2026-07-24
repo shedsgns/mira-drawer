@@ -544,7 +544,14 @@ function App() {
       >
         <button className="drawer-overlay" type="button" aria-label="Close drawer" onClick={closeDrawer} />
 
-        <div className="drawer-positioner" ref={drawerRef} role="dialog" aria-modal="true" aria-labelledby="help-drawer-title" tabIndex={-1}>
+        <div
+          className={`drawer-positioner ${activeDrawer.id === 'warning' ? 'drawer-positioner--warning' : ''}`}
+          ref={drawerRef}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="help-drawer-title"
+          tabIndex={-1}
+        >
           {activeDrawer.id === 'warning' ? (
             <WarningDrawer isOpen={isDrawerOpen} onAcknowledge={closeDrawer} />
           ) : (

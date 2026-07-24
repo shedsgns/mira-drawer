@@ -1,23 +1,9 @@
-<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="54.0004" height="49.1297" viewBox="0 0 54.0004 49.1297" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g id="h">
-<g id="Union" filter="url(#filter0_i_0_4)">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M53.9996 16.3294C53.9064 10.0012 50.3236 3.76913 44.8112 1.20053C42.01 -0.104861 38.7612 -0.429977 35.3733 0.645451C32.5514 1.54117 29.7252 3.37697 27 6.26329C24.2747 3.37697 21.4485 1.54117 18.6266 0.645451C15.2387 -0.429977 11.9899 -0.104861 9.18856 1.20053C3.6764 3.76913 0.0937639 10.0012 0.000219941 16.3294L0 16.359C0 25.5889 5.48916 33.766 11.3025 39.5052C14.237 42.402 17.3346 44.76 20.0367 46.4064C21.3869 47.2288 22.6652 47.8904 23.7978 48.3524C24.8798 48.794 26.0087 49.1297 27 49.1297C27.9912 49.1297 29.1201 48.794 30.2021 48.3524C31.3347 47.8904 32.613 47.2288 33.9632 46.4064C36.6653 44.76 39.7628 42.402 42.6976 39.5052C48.5108 33.766 54 25.5889 54 16.359L53.9996 16.3294Z" fill="url(#paint0_radial_0_4)"/>
-</g>
-</g>
-<defs>
-<filter id="filter0_i_0_4" x="0" y="0" width="58" height="53.1297" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dx="4" dy="4"/>
-<feGaussianBlur stdDeviation="6"/>
-<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
-<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.25 0"/>
-<feBlend mode="normal" in2="shape" result="effect1_innerShadow_0_4"/>
-</filter>
-<radialGradient id="paint0_radial_0_4" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(27.0002 24.5648) rotate(90) scale(24.5648 27.0002)">
-<stop stop-color="#FFA2A2"/>
-<stop offset="1" stop-color="#E7000B"/>
-</radialGradient>
-</defs>
+<svg width="54" height="49.13" viewBox="0 0 54 49.13" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M53.9996 16.3294C53.9064 10.0012 50.3236 3.76913 44.8112 1.20053C42.01 -0.104861 38.7612 -0.429977 35.3733 0.645451C32.5514 1.54117 29.7252 3.37697 27 6.26329C24.2747 3.37697 21.4485 1.54117 18.6266 0.645451C15.2387 -0.429977 11.9899 -0.104861 9.18856 1.20053C3.6764 3.76913 0.0937639 10.0012 0.000219941 16.3294L0 16.359C0 25.5889 5.48916 33.766 11.3025 39.5052C14.237 42.402 17.3346 44.76 20.0367 46.4064C21.3869 47.2288 22.6652 47.8904 23.7978 48.3524C24.8798 48.794 26.0087 49.1297 27 49.1297C27.9912 49.1297 29.1201 48.794 30.2021 48.3524C31.3347 47.8904 32.613 47.2288 33.9632 46.4064C36.6653 44.76 39.7628 42.402 42.6976 39.5052C48.5108 33.766 54 25.5889 54 16.359L53.9996 16.3294Z" fill="url(#heart-fill)"/>
+  <defs>
+    <radialGradient id="heart-fill" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(27 24.565) rotate(90) scale(24.565 27)">
+      <stop stop-color="#FFA2A2"/>
+      <stop offset="1" stop-color="#E7000B"/>
+    </radialGradient>
+  </defs>
 </svg>

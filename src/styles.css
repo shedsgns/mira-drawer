@@ -182,6 +182,16 @@ select {
   transform: translate3d(0, 0, 0);
 }
 
+.drawer-positioner--warning {
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: 30px 30px 0 0;
+  background: #222459;
+  -webkit-clip-path: inset(0 round 30px 30px 0 0);
+  clip-path: inset(0 round 30px 30px 0 0);
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+}
+
 .help-drawer {
   width: min(100vw, 393px);
   padding: 12px 20px 64px;
@@ -289,6 +299,7 @@ select {
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-width: none;
+  border-radius: 0;
   background: #222459;
   box-shadow: none;
 }
@@ -497,7 +508,6 @@ select {
   isolation: isolate;
   transform-origin: 50% 55%;
   animation: warning-heart-beat var(--warning-heart-beat) cubic-bezier(0.37, 0, 0.63, 1) infinite;
-  will-change: transform;
 }
 
 .pulsing-heart__core::before {
@@ -512,10 +522,8 @@ select {
 
 .pulsing-heart__core::before {
   background: radial-gradient(70% 58% at 36% 20%, rgba(255, 255, 255, 0.58), rgba(255, 255, 255, 0.1) 48%, transparent 72%);
-  mix-blend-mode: screen;
   opacity: 0.18;
   animation: warning-heart-glass var(--warning-heart-beat) cubic-bezier(0.37, 0, 0.63, 1) infinite;
-  will-change: opacity, transform;
 }
 
 .pulsing-heart__image {
@@ -524,9 +532,8 @@ select {
   position: relative;
   z-index: 1;
   display: block;
-  filter:
-    drop-shadow(0 0 5px rgba(255, 242, 244, 0.2))
-    drop-shadow(0 0 10px rgba(255, 210, 216, 0.12));
+  overflow: visible;
+  shape-rendering: geometricPrecision;
   pointer-events: none;
 }
 
@@ -543,7 +550,6 @@ select {
   opacity: 0.3;
   pointer-events: none;
   animation: warning-heart-glass-shell var(--warning-heart-beat) cubic-bezier(0.37, 0, 0.63, 1) infinite;
-  will-change: opacity, transform;
 }
 
 .pulsing-heart__glass-rim {
@@ -555,9 +561,7 @@ select {
   overflow: visible;
   opacity: 0.42;
   pointer-events: none;
-  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.2));
   animation: warning-heart-glass-rim var(--warning-heart-beat) cubic-bezier(0.37, 0, 0.63, 1) infinite;
-  will-change: opacity;
 }
 
 .pixel-heart__canvas {
