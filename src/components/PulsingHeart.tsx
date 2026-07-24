@@ -96,29 +96,40 @@ export function PulsingHeart({ active }: PulsingHeartProps) {
               <stop stopColor="#ffa2a2" />
               <stop offset="1" stopColor="#e7000b" />
             </radialGradient>
-          </defs>
-          <path d={HEART_PATH} fill="url(#heart-core-fill)" />
-        </svg>
-        <span className="pulsing-heart__glass-shell" aria-hidden="true" />
-        <svg
-          className="pulsing-heart__glass-rim"
-          viewBox="0 0 54 49.13"
-          fill="none"
-          aria-hidden="true"
-        >
-          <defs>
-            <linearGradient id="heart-glass-rim" x1="9" y1="3" x2="45" y2="46" gradientUnits="userSpaceOnUse">
+            <linearGradient id="heart-core-glass" x1="9" y1="2" x2="42" y2="45" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#fff" stopOpacity="0.48" />
+              <stop offset="0.24" stopColor="#fff" stopOpacity="0.1" />
+              <stop offset="0.5" stopColor="#fff" stopOpacity="0" />
+              <stop offset="1" stopColor="#fff" stopOpacity="0" />
+            </linearGradient>
+            <radialGradient
+              id="heart-core-reflection"
+              cx="0"
+              cy="0"
+              r="1"
+              gradientUnits="userSpaceOnUse"
+              gradientTransform="translate(27 49) rotate(-90) scale(24 34)"
+            >
+              <stop stopColor="#fff" stopOpacity="0.18" />
+              <stop offset="0.68" stopColor="#fff" stopOpacity="0" />
+            </radialGradient>
+            <linearGradient id="heart-core-rim" x1="9" y1="3" x2="45" y2="46" gradientUnits="userSpaceOnUse">
               <stop stopColor="#fff" stopOpacity="0.72" />
               <stop offset="0.42" stopColor="#fff" stopOpacity="0.12" />
               <stop offset="0.72" stopColor="#ffd9dd" stopOpacity="0.18" />
               <stop offset="1" stopColor="#fff" stopOpacity="0.46" />
             </linearGradient>
           </defs>
+          <path d={HEART_PATH} fill="url(#heart-core-fill)" />
+          <path className="pulsing-heart__glass-layer" d={HEART_PATH} fill="url(#heart-core-glass)" />
+          <path className="pulsing-heart__glass-layer pulsing-heart__glass-layer--reflection" d={HEART_PATH} fill="url(#heart-core-reflection)" />
           <path
+            className="pulsing-heart__rim-path"
             d={HEART_PATH}
+            fill="none"
             pathLength="1"
             vectorEffect="non-scaling-stroke"
-            stroke="url(#heart-glass-rim)"
+            stroke="url(#heart-core-rim)"
             strokeWidth="0.8"
           />
         </svg>
