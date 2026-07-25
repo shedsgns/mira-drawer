@@ -317,9 +317,6 @@ select {
 }
 
 .pulsing-heart {
-  --warning-heart-cycle: 2.8s;
-  --warning-heart-beat: var(--warning-heart-cycle);
-  --warning-heart-ease: cubic-bezier(0.215, 0.61, 0.355, 1);
   width: 124px;
   height: 124px;
   flex: 0 0 124px;
@@ -343,7 +340,6 @@ select {
   -webkit-mask: url("../Icons/Heart.svg") center / contain no-repeat;
   mask: url("../Icons/Heart.svg") center / contain no-repeat;
   filter: blur(9px);
-  animation: warning-heart-ambient var(--warning-heart-cycle) var(--warning-heart-ease) infinite;
   will-change: opacity, transform;
 }
 
@@ -423,18 +419,7 @@ select {
   display: block;
   opacity: 0;
   transform-origin: center;
-  animation-duration: var(--warning-heart-cycle);
-  animation-timing-function: var(--warning-heart-ease);
-  animation-iteration-count: infinite;
   will-change: opacity, transform;
-}
-
-.pulsing-heart__wave--early {
-  animation-name: warning-heart-wave-primary;
-}
-
-.pulsing-heart__wave--late {
-  animation-name: warning-heart-wave-secondary;
 }
 
 .pulsing-heart__wave-svg {
@@ -461,48 +446,35 @@ select {
 }
 
 .pulsing-heart__wave-sheen {
-  --warning-sheen-wave-delay: 0s;
-  --warning-sheen-layer-delay: 0s;
   fill: none;
-  stroke: rgba(255, 70, 80, 0.94);
+  stroke: rgba(255, 54, 68, 0.98);
   stroke-width: 1px;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-dasharray: 9 91;
+  stroke-dasharray: 12 88;
   stroke-dashoffset: 0;
-  animation: warning-heart-wave-sheen 8.4s linear infinite;
-  animation-delay: calc(var(--warning-sheen-wave-delay) + var(--warning-sheen-layer-delay));
   will-change: stroke-dashoffset;
 }
 
 .pulsing-heart__wave-sheen--tail-far {
-  --warning-sheen-layer-delay: 0s;
-  opacity: 0.07;
+  opacity: 0.1;
 }
 
 .pulsing-heart__wave-sheen--tail-soft {
-  --warning-sheen-layer-delay: -0.14s;
-  opacity: 0.13;
+  opacity: 0.18;
 }
 
 .pulsing-heart__wave-sheen--tail-mid {
-  --warning-sheen-layer-delay: -0.28s;
-  opacity: 0.22;
+  opacity: 0.3;
 }
 
 .pulsing-heart__wave-sheen--tail-near {
-  --warning-sheen-layer-delay: -0.42s;
-  opacity: 0.36;
+  opacity: 0.48;
 }
 
 .pulsing-heart__wave-sheen--glint {
-  --warning-sheen-layer-delay: -0.56s;
-  opacity: 0.62;
+  opacity: 0.82;
   filter: drop-shadow(0 0 2px rgba(255, 38, 50, 0.34));
-}
-
-.pulsing-heart__wave--late {
-  --warning-sheen-wave-delay: -2.8s;
 }
 
 .pulsing-heart__core {
@@ -513,7 +485,8 @@ select {
   display: block;
   isolation: isolate;
   transform-origin: 50% 55%;
-  animation: warning-heart-beat var(--warning-heart-cycle) var(--warning-heart-ease) infinite;
+  transform: translate3d(0, 0, 0) scale(1);
+  will-change: transform;
 }
 
 .pulsing-heart__image {
@@ -530,7 +503,6 @@ select {
 .pulsing-heart__glass-layer {
   opacity: 0.3;
   pointer-events: none;
-  animation: warning-heart-glass-fill var(--warning-heart-cycle) var(--warning-heart-ease) infinite;
 }
 
 .pulsing-heart__glass-layer--reflection {
@@ -540,7 +512,6 @@ select {
 .pulsing-heart__rim-path {
   opacity: 0.42;
   pointer-events: none;
-  animation: warning-heart-glass-rim var(--warning-heart-cycle) var(--warning-heart-ease) infinite;
 }
 
 .pixel-heart__canvas {
@@ -618,134 +589,6 @@ select {
   35% {
     opacity: 0.2;
     transform: translate3d(2px, -2.5px, 0) scale(0.78) rotate(6deg);
-  }
-}
-
-@keyframes warning-heart-glass-fill {
-  0%,
-  27%,
-  100% {
-    opacity: 0.3;
-  }
-
-  6% {
-    opacity: 0.56;
-  }
-
-  12% {
-    opacity: 0.34;
-  }
-
-  18% {
-    opacity: 0.45;
-  }
-}
-
-@keyframes warning-heart-glass-rim {
-  0%,
-  27%,
-  100% {
-    opacity: 0.42;
-  }
-
-  6% {
-    opacity: 0.76;
-  }
-
-  12% {
-    opacity: 0.48;
-  }
-
-  18% {
-    opacity: 0.62;
-  }
-}
-
-@keyframes warning-heart-beat {
-  0% {
-    transform: scale(1);
-  }
-
-  6% {
-    transform: scale(1.075);
-  }
-
-  12% {
-    transform: scale(0.995);
-  }
-
-  18% {
-    transform: scale(1.035);
-  }
-
-  27%,
-  100% {
-    transform: scale(1);
-  }
-}
-
-@keyframes warning-heart-wave-primary {
-  0% {
-    opacity: 0;
-    transform: scale(0.96);
-  }
-
-  6% {
-    opacity: 0.62;
-    transform: scale(1.08);
-  }
-
-  100% {
-    opacity: 0;
-    transform: scale(2.08);
-  }
-}
-
-@keyframes warning-heart-wave-secondary {
-  0%,
-  12% {
-    opacity: 0;
-    transform: scale(0.96);
-  }
-
-  18% {
-    opacity: 0.5;
-    transform: scale(1.08);
-  }
-
-  100% {
-    opacity: 0;
-    transform: scale(1.84);
-  }
-}
-
-@keyframes warning-heart-wave-sheen {
-  to {
-    stroke-dashoffset: -100;
-  }
-}
-
-@keyframes warning-heart-ambient {
-  0%,
-  27%,
-  100% {
-    opacity: 0.52;
-    transform: scale(0.94);
-  }
-
-  6% {
-    opacity: 0.86;
-    transform: scale(1.13);
-  }
-
-  12% {
-    opacity: 0.58;
-    transform: scale(0.98);
-  }
-
-  18% {
-    opacity: 0.72;
-    transform: scale(1.07);
   }
 }
 
