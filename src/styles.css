@@ -317,8 +317,9 @@ select {
 }
 
 .pulsing-heart {
-  --warning-heart-cycle: 4.8s;
-  --warning-heart-beat: 2.8s;
+  --warning-heart-cycle: 2.8s;
+  --warning-heart-beat: var(--warning-heart-cycle);
+  --warning-heart-ease: cubic-bezier(0.215, 0.61, 0.355, 1);
   width: 124px;
   height: 124px;
   flex: 0 0 124px;
@@ -342,7 +343,7 @@ select {
   -webkit-mask: url("../Icons/Heart.svg") center / contain no-repeat;
   mask: url("../Icons/Heart.svg") center / contain no-repeat;
   filter: blur(9px);
-  animation: warning-heart-ambient var(--warning-heart-beat) ease-in-out infinite;
+  animation: warning-heart-ambient var(--warning-heart-cycle) var(--warning-heart-ease) infinite;
   will-change: opacity, transform;
 }
 
@@ -422,8 +423,18 @@ select {
   display: block;
   opacity: 0;
   transform-origin: center;
-  animation: warning-heart-wave var(--warning-heart-cycle) cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+  animation-duration: var(--warning-heart-cycle);
+  animation-timing-function: var(--warning-heart-ease);
+  animation-iteration-count: infinite;
   will-change: opacity, transform;
+}
+
+.pulsing-heart__wave--early {
+  animation-name: warning-heart-wave-primary;
+}
+
+.pulsing-heart__wave--late {
+  animation-name: warning-heart-wave-secondary;
 }
 
 .pulsing-heart__wave-svg {
@@ -459,7 +470,7 @@ select {
   stroke-linejoin: round;
   stroke-dasharray: 9 91;
   stroke-dashoffset: 0;
-  animation: warning-heart-wave-sheen 7.8s linear infinite;
+  animation: warning-heart-wave-sheen 8.4s linear infinite;
   animation-delay: calc(var(--warning-sheen-wave-delay) + var(--warning-sheen-layer-delay));
   will-change: stroke-dashoffset;
 }
@@ -491,15 +502,7 @@ select {
 }
 
 .pulsing-heart__wave--late {
-  --warning-sheen-wave-delay: -2.4s;
-}
-
-.pulsing-heart__wave--late .pulsing-heart__wave-sheen {
-  animation-duration: 9.4s;
-}
-
-.pulsing-heart__wave--late {
-  animation-delay: -2.4s;
+  --warning-sheen-wave-delay: -2.8s;
 }
 
 .pulsing-heart__core {
@@ -510,7 +513,7 @@ select {
   display: block;
   isolation: isolate;
   transform-origin: 50% 55%;
-  animation: warning-heart-beat var(--warning-heart-beat) cubic-bezier(0.37, 0, 0.63, 1) infinite;
+  animation: warning-heart-beat var(--warning-heart-cycle) var(--warning-heart-ease) infinite;
 }
 
 .pulsing-heart__image {
@@ -527,18 +530,17 @@ select {
 .pulsing-heart__glass-layer {
   opacity: 0.3;
   pointer-events: none;
-  animation: warning-heart-glass-fill var(--warning-heart-beat) cubic-bezier(0.37, 0, 0.63, 1) infinite;
+  animation: warning-heart-glass-fill var(--warning-heart-cycle) var(--warning-heart-ease) infinite;
 }
 
 .pulsing-heart__glass-layer--reflection {
   opacity: 0.18;
-  animation-delay: -0.08s;
 }
 
 .pulsing-heart__rim-path {
   opacity: 0.42;
   pointer-events: none;
-  animation: warning-heart-glass-rim var(--warning-heart-beat) cubic-bezier(0.37, 0, 0.63, 1) infinite;
+  animation: warning-heart-glass-rim var(--warning-heart-cycle) var(--warning-heart-ease) infinite;
 }
 
 .pixel-heart__canvas {
@@ -682,20 +684,38 @@ select {
   }
 }
 
-@keyframes warning-heart-wave {
+@keyframes warning-heart-wave-primary {
   0% {
     opacity: 0;
     transform: scale(0.96);
   }
 
-  18% {
+  6% {
     opacity: 0.62;
-    transform: scale(1.15);
+    transform: scale(1.08);
   }
 
   100% {
     opacity: 0;
     transform: scale(2.08);
+  }
+}
+
+@keyframes warning-heart-wave-secondary {
+  0%,
+  12% {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+
+  18% {
+    opacity: 0.5;
+    transform: scale(1.08);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.84);
   }
 }
 
