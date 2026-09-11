@@ -99,12 +99,10 @@ Pushes to `main` deploy to GitHub Pages.
 
 ## Focus sphere
 
-The original CSS glass shell, lens, and scrolling labels surround an Orbkit
-SHDR-25 surface. The speaking preset is slowed to speed 0.95, drift 0.24,
-and swirl 0.16, with Mira blue, aqua, and lilac and a soft-light blend over
-the original pastel body. No extra shader wrapper is used. Motion pauses
-while the drawer is open and respects visibility and reduced motion.
+Restored from the original `focus/` CSS reference: original colors, glass
+layers, full-height lens, flowing light, and synchronized word tracks.
+The page uses Onest with 20px sphere text and no scaling on click. Motion
+pauses when the picker is open and respects visibility and reduced motion.
 
-SHDR-25 is by XorDev, for **non-commercial use with attribution**. Commercial
-use requires separate permission. See `src/pages/focus/orbkit/NOTICE.md`.
-The runtime is MIT licensed. The CSS sphere remains visible without WebGL.
+The Orbkit experiment is retained in `src/pages/focus/orbkit/` for reference
+but is not imported or rendered. Its original license notices remain there.

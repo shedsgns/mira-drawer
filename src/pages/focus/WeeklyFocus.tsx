@@ -5,7 +5,6 @@ import {
   type CSSProperties,
 } from "react";
 import { useAnimationVisibility } from "./useAnimationVisibility";
-import { Shdr25 } from "./orbkit/shdr-25";
 import "./sphere.css";
 
 export interface WeeklyFocusItem {
@@ -57,7 +56,7 @@ function makeKeyframes(name: string, count: number): string {
 }
 
 /**
- * Slow shader folds sit beneath the original glass shell and CSS word tracks.
+ * The original CSS glass sphere and synchronized word tracks.
  * The button opens the picker without choosing the decorative word.
  * Render the title and hint outside this button to suit the host screen.
  */
@@ -158,21 +157,11 @@ export function WeeklyFocus({
       >
         <span className="focus-sphere__body" aria-hidden="true">
           <span className="focus-sphere__light">
-            <Shdr25
-              className="focus-sphere__flow"
-              size={280}
-              style={{ width: '100%', height: '100%' }}
-              state="speaking"
-              params={{ speed: 0.95, drift: 0.24, swirl: 0.16, scale: 8.5, blur: 3.5 }}
-              colors={{ tint: '#bdebe7', body: '#4086de', sheen: '#d7ccf3' }}
-              volumes={{ input: 0, output: 0.6 }}
-              paused={paused}
-              pauseOffscreen
-              maxDpr={1.5}
-            />
+            <i className="focus-wave focus-wave--a" />
+            <i className="focus-wave focus-wave--b" />
+            <i className="focus-wave focus-wave--c" />
+            <i className="focus-wave focus-wave--d" />
           </span>
-          <span className="focus-sphere__current focus-sphere__current--mint" />
-          <span className="focus-sphere__current focus-sphere__current--lilac" />
           {renderWords()}
           <span className="focus-sphere__glass" />
           {renderWords(true)}
