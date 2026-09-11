@@ -1,0 +1,406 @@
+/* Мира · Фокус на неделю. Только CSS, без изображений, SVG и шрифтов.
+   Одна световая сцена; две синхронные ленты с общей маской окна. */
+
+.focus-sphere {
+  /* Размер и текст */
+  --focus-size: min(66vw, 304px);
+  --focus-row: calc(var(--focus-size) * .245);
+  --focus-font: calc(var(--focus-size) * .086);
+  --focus-ink: #0c2470;
+  /* 1. Лента: 20 с = 5 × (3 с неподвижно + 1 с переход). Собирается render_demo.py. */
+  --focus-cycle: 20s;
+  --focus-scroll-ease: cubic-bezier(.4, 0, .2, 1);
+  /* 2. Свет: независимые циклы, широкие меняющие форму слои. */
+  --focus-wave-a: 8.7s;
+  --focus-wave-b: 7.3s;
+  --focus-wave-c: 10.6s;
+  --focus-wave-d: 8.4s;
+  --focus-blue: #6ba7d9;
+  --focus-teal: #6ed2d8;
+  --focus-lilac: #a58cea;
+  --focus-wave-blur: calc(var(--focus-size) * .021);
+  /* 3. Неподвижное окно-линза: контур --focus-aperture ниже. */
+  --focus-frost-blur: calc(var(--focus-size) * .007);
+  --focus-frost-opacity: .21;
+  --focus-motion-ease: cubic-bezier(.45, 0, .55, 1);
+
+  position: relative;
+  display: block;
+  flex: 0 0 auto;
+  width: var(--focus-size);
+  height: var(--focus-size);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--focus-ink);
+  font-family: inherit;
+  cursor: pointer;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  isolation: isolate;
+  user-select: none;
+}
+.focus-sphere, .focus-sphere * { box-sizing: border-box; }
+.focus-sphere:focus-visible { outline: 2px solid #edfaff; outline-offset: 12px; }
+.focus-sphere::before {
+  content: '';
+  position: absolute;
+  inset: -20%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, #88ede529, #79c8ed12 57%, transparent 100%);
+}
+.focus-sphere::after {
+  content: '';
+  position: absolute;
+  inset: 92% 9% -14%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, #09134633, transparent 67%);
+  filter: blur(8px);
+}
+.focus-sphere__body {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 50%;
+  /* Не ставить filter, opacity, mask на этот контейнер: они меняют backdrop-root. */
+  background:
+    radial-gradient(ellipse at 30% 27%, #9acddd 0%, transparent 55%),
+    radial-gradient(ellipse at 63% 74%, #8cd9d0 0%, transparent 60%),
+    linear-gradient(138deg, #76accd, #83c5d2 49%, #9290cf);
+  box-shadow: 0 14px 35px -18px #04104d50;
+  transform: translateZ(0);
+}
+.focus-sphere__light,
+.focus-sphere__words,
+.focus-sphere__glass,
+.focus-sphere__edge,
+.focus-sphere__reflection,
+.focus-sphere__caustic { position: absolute; inset: 0; pointer-events: none; }
+.focus-sphere__light { overflow: hidden; border-radius: 50%; }
+.focus-wave {
+  position: absolute;
+  display: block;
+  width: 150%;
+  height: 69%;
+  left: -25%;
+  filter: blur(var(--focus-wave-blur));
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+.focus-wave--a {
+  top: 3%;
+  height: 53%;
+  background: linear-gradient(174deg, transparent 4%, #defbff8c 18%, var(--focus-blue) 39%, #80bee583 61%, transparent 95%);
+  box-shadow: inset 0 9px 13px -10px #fff9;
+  opacity: .76;
+  border-radius: 38% 62% 39% 61% / 32% 52% 48% 68%;
+  transform: rotate(-24deg) skewX(-9deg) translateY(-7%);
+  animation: focus-wave-a var(--focus-wave-a) var(--focus-motion-ease) infinite;
+}
+.focus-wave--b {
+  top: 28%;
+  height: 54%;
+  background: linear-gradient(175deg, transparent 2%, #d4fffc7a 19%, var(--focus-teal) 39%, #87dfdfb3 59%, transparent 91%);
+  box-shadow: inset 0 12px 17px -11px #eaffffe0;
+  opacity: .84;
+  border-radius: 70% 30% 66% 34% / 48% 67% 33% 52%;
+  transform: rotate(22deg) skewY(-9deg) translate(2%, 6%);
+  animation: focus-wave-b var(--focus-wave-b) var(--focus-motion-ease) infinite;
+}
+.focus-wave--c {
+  top: 61%;
+  height: 49%;
+  background: linear-gradient(180deg, transparent, #ccbaff60 17%, var(--focus-lilac) 42%, #7f94dc65 72%, transparent);
+  opacity: .7;
+  border-radius: 29% 71% 47% 53% / 47% 33% 67% 53%;
+  transform: rotate(-29deg) skewX(10deg) translateY(4%);
+  animation: focus-wave-c var(--focus-wave-c) var(--focus-motion-ease) infinite;
+}
+.focus-wave--d {
+  top: -12%;
+  left: 31%;
+  width: 38%;
+  height: 126%;
+  background: linear-gradient(90deg, transparent, #e1fffb19 13%, #edffff70 44%, #c6ecff20 66%, transparent);
+  border-radius: 68% 32% 63% 37% / 39% 55% 45% 61%;
+  transform: rotate(-37deg) skewX(15deg);
+  opacity: .8;
+  animation: focus-wave-d var(--focus-wave-d) var(--focus-motion-ease) infinite;
+}
+
+/* Обе ленты имеют одинаковые геометрию, таймлайн и повторения на стыке. */
+.focus-sphere__words {
+  z-index: 1;
+  overflow: hidden;
+  /* Слова уходят в глубину у полюсов, а не обрезаются резкой линией. */
+  mask-image: linear-gradient(transparent 12%, #0009 25%, #000 38% 62%, #0009 75%, transparent 88%);
+}
+.focus-sphere__track {
+  position: absolute;
+  top: calc(50% - var(--focus-row) / 2);
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(calc(var(--focus-row) * -1));
+  animation: focus-tape var(--focus-cycle) var(--focus-scroll-ease) infinite;
+  will-change: transform;
+}
+.focus-sphere__word {
+  flex: 0 0 var(--focus-row);
+  height: var(--focus-row);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline: 8%;
+  font-size: var(--focus-font);
+  line-height: 1.12;
+  font-weight: 500;
+  letter-spacing: -.035em;
+  white-space: nowrap;
+  text-shadow: 0 1px 1px #e6ffff2b;
+}
+.focus-sphere__word[data-long='true'] { font-size: max(14px, calc(var(--focus-font) * .80)); letter-spacing: -.035em; }
+
+
+.focus-sphere__words:not(.focus-sphere__words--clear) {
+  --focus-pole-mask: linear-gradient(transparent 12%, #0009 25%, #000 38% 62%, #0009 75%, transparent 88%);
+  filter: blur(var(--focus-frost-blur));
+  opacity: .82;
+  mask-image: radial-gradient(ellipse 39% 11.2% at 50% 50%, transparent 98%, #000 100%), var(--focus-pole-mask);
+  mask-composite: intersect;
+}
+.focus-sphere__words--clear {
+  clip-path: ellipse(39% 11.2% at 50% 50%);
+  mask-image: none;
+}
+
+/* Матовая оболочка. Для старых движков — настоящее эллиптическое отверстие. */
+.focus-sphere__glass {
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse at 37% 25%, #f4fcff29, transparent 63%),
+    radial-gradient(ellipse 26% 40% at 12% 56%, #7886d870, transparent 100%),
+    radial-gradient(ellipse 26% 30% at 80% 79%, #b292ef78, transparent 100%),
+    radial-gradient(ellipse 36% 36% at 71% 22%, #8baed13d, transparent 100%),
+    radial-gradient(ellipse at 67% 78%, #ccecff30, transparent 68%),
+    rgb(221 238 255 / var(--focus-frost-opacity));
+
+  mask-image: radial-gradient(ellipse 39% 11.2% at 50% 50%, transparent 98%, #000 100%);
+  box-shadow: inset 0 0 12px #eefbff57;
+}
+@supports (clip-path: shape(from 0% 0%, line to 100% 0%, close)) {
+  /* Все слои используют один и тот же контур. Никакого морфинга. */
+  .focus-sphere {
+    --focus-aperture:
+      11% 50%,
+      curve to 15% 45.8% with 11% 47.9% / 12% 46.5%,
+      curve to 50% 38.8% with 27% 43% / 40% 38.8%,
+      curve to 85% 45.8% with 60% 38.8% / 73% 43%,
+      curve to 89% 50% with 88% 46.5% / 89% 47.9%,
+      curve to 85% 54.2% with 89% 52.1% / 88% 53.5%,
+      curve to 50% 61.2% with 73% 57% / 60% 61.2%,
+      curve to 15% 54.2% with 40% 61.2% / 27% 57%,
+      curve to 11% 50% with 12% 53.5% / 11% 52.1%, close;
+  }
+  .focus-sphere__glass,
+  .focus-sphere__words:not(.focus-sphere__words--clear) {
+    mask-image: none;
+    clip-path: shape(evenodd from 0% 0%, line to 100% 0%, line to 100% 100%, line to 0% 100%, close, move to var(--focus-aperture));
+  }
+  .focus-sphere__words:not(.focus-sphere__words--clear) {
+    mask-image: var(--focus-pole-mask);
+  }
+  .focus-sphere__words--clear {
+    clip-path: shape(from var(--focus-aperture));
+  }
+  .focus-sphere__words--clear::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: conic-gradient(from var(--focus-border-angle), #d9ffff35 0deg, #c5e8f540 80deg, #efffff80 140deg, #d4edfa45 200deg, #d5ceef40 280deg, #d9ffff35 360deg);
+    animation: focus-border-travel 14s linear infinite;
+    clip-path: shape(evenodd from 0% 0%, line to 100% 0%, line to 100% 100%, line to 0% 100%, close, move to var(--focus-aperture));
+    transform: scale(.99);
+  }
+  .focus-sphere__glass {
+    filter: drop-shadow(0 -.6px .5px #efffffbd) drop-shadow(0 1.2px 1.5px #dbffff70);
+  }
+}
+
+/* Толщина стекла: разные радиусы световых дуг и рефракция у края. */
+.focus-sphere__edge {
+  z-index: 2;
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse 65% 74% at 51% 32%, transparent 43%, #255c9325 76%, transparent 95%),
+    radial-gradient(closest-side, transparent 68%, #244d852b 87%, transparent 97%),
+    radial-gradient(closest-side, transparent 88%, #dcf9ff18 94%, #dff6f578 98.5%, #f0fbfbd6 99.5%, #c5dff16b 100%);
+  box-shadow:
+    inset 0 1px 1px #effafbdb,
+    inset 2px 0 4px #e6f7f78c,
+    inset -2px -1px 3px #dcf8ff94,
+    inset 0 -8px 12px -9px #fbffff;
+}
+.focus-sphere__reflection {
+  z-index: 2;
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse 42% 28% at 25% 14%, #f3fcfba6 0%, #f8ffff60 18%, #e2f7ff0b 44%, transparent 70%),
+    radial-gradient(ellipse 26% 9% at 69% 5%, #f4fcfba8, #e8f8ff28 53%, transparent 85%),
+    radial-gradient(ellipse 9% 33% at 4% 51%, #fff9, #efffff2b 40%, transparent 85%),
+    radial-gradient(ellipse 18% 13% at 25% 89%, #efffff8c, transparent 77%),
+    radial-gradient(ellipse 18% 21% at 91% 73%, #a1e3ff51, transparent 78%);
+}
+.focus-sphere__reflection::before {
+  content: '';
+  position: absolute;
+  inset: 2.3%;
+  border-radius: 50%;
+  border: calc(var(--focus-size) * .026) solid #f7ffff;
+  mask-image: conic-gradient(from 0deg, #000b, transparent 12% 57%, #000a 66%, #000 82%, #000b);
+  filter: blur(calc(var(--focus-size) * .01));
+}
+.focus-sphere__caustic {
+  z-index: 2;
+  inset: 2.4%;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  border-top-color: #fff5;
+  border-bottom-color: #a9d5f75e;
+  transform: rotate(-26deg);
+  box-shadow: inset 5px 0 7px -8px #fff, 0 3px 7px -6px #ecffff;
+}
+
+@keyframes focus-tape {
+  0%, 15% { transform: translateY(calc(var(--focus-row) * -1)); }
+  20%, 35% { transform: translateY(calc(var(--focus-row) * -2)); }
+  40%, 55% { transform: translateY(calc(var(--focus-row) * -3)); }
+  60%, 75% { transform: translateY(calc(var(--focus-row) * -4)); }
+  80%, 95% { transform: translateY(calc(var(--focus-row) * -5)); }
+  100% { transform: translateY(calc(var(--focus-row) * -6)); }
+}
+@keyframes focus-wave-a {
+  0%, 100% { border-radius: 38% 62% 39% 61% / 32% 52% 48% 68%; transform: rotate(-24deg) skewX(-9deg) translateY(-7%); }
+  35% { border-radius: 65% 35% 65% 35% / 55% 33% 67% 45%; transform: rotate(-12deg) skewX(12deg) translate(3%, 12%); }
+  70% { border-radius: 43% 57% 32% 68% / 65% 44% 56% 35%; transform: rotate(-29deg) skewX(-5deg) translate(-3%, 4%); }
+}
+@keyframes focus-wave-b {
+  0%, 100% { border-radius: 70% 30% 66% 34% / 48% 67% 33% 52%; transform: rotate(22deg) skewY(-9deg) translate(2%, 6%); }
+  42% { border-radius: 31% 69% 39% 61% / 69% 36% 64% 31%; transform: rotate(9deg) skewY(11deg) translate(-4%, -9%); }
+  74% { border-radius: 52% 48% 72% 28% / 36% 57% 43% 64%; transform: rotate(31deg) skewY(-3deg) translate(3%, 7%); }
+}
+@keyframes focus-wave-c {
+  0%, 100% { border-radius: 29% 71% 47% 53% / 47% 33% 67% 53%; transform: rotate(-29deg) skewX(10deg) translateY(4%); }
+  48% { border-radius: 67% 33% 71% 29% / 34% 59% 41% 66%; transform: rotate(-7deg) skewX(-15deg) translateY(-20%); }
+  79% { border-radius: 47% 53% 32% 68% / 61% 42% 58% 39%; transform: rotate(-36deg) skewX(2deg) translateY(-3%); }
+}
+@keyframes focus-wave-d {
+  0%, 100% { border-radius: 68% 32% 63% 37% / 39% 55% 45% 61%; transform: rotate(-37deg) skewX(15deg) translateX(-3%); }
+  53% { border-radius: 31% 69% 33% 67% / 68% 34% 66% 32%; transform: rotate(-16deg) skewX(-14deg) translateX(21%); }
+}
+
+/* Родитель управляет только play-state. Временные шкалы не пересоздаются. */
+.focus-sphere[data-active='false'],
+.focus-sphere[data-active='false'] *,
+.focus-sphere[data-active='false']::before,
+.focus-sphere[data-active='false']::after,
+.focus-sphere[data-active='false'] *::before,
+.focus-sphere[data-active='false'] *::after { animation-play-state: paused !important; }
+@media (prefers-reduced-motion: reduce) {
+  .focus-sphere, .focus-sphere *, .focus-sphere::before, .focus-sphere::after { animation: none !important; transition: none !important; }
+  .focus-sphere:active { transform: none; }
+}
+@media (forced-colors: active) {
+  .focus-sphere { border: 2px solid ButtonText; background: ButtonFace; color: ButtonText; }
+  .focus-sphere__body { background: ButtonFace; }
+  .focus-sphere__light, .focus-sphere__glass, .focus-sphere__edge, .focus-sphere__reflection, .focus-sphere__caustic { display: none; }
+}
+
+.focus-sphere[data-paused] *,
+.focus-sphere[data-paused] *::before,
+.focus-sphere[data-paused] *::after { animation-play-state: paused !important; }
+
+/* Float only the inner light: the lens and its text remain anchored. */
+@property --focus-border-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+/* The shader supplies the inner movement; retain the original pastel body. */
+.focus-sphere__light { mix-blend-mode: soft-light; opacity: .86; }
+.focus-sphere__flow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(12px);
+  transform: scale(1.12);
+}
+.focus-sphere__reflection { animation: focus-reflection-breathe 7s ease-in-out infinite; }
+@keyframes focus-inner-float {
+  0%, 100% { transform: translate(-2%, 1%) rotate(-5deg) scale(1.08); }
+  35% { transform: translate(3%, -3%) rotate(6deg) scale(1.13); }
+  70% { transform: translate(-1%, 3%) rotate(-2deg) scale(1.09); }
+}
+@keyframes focus-reflection-breathe {
+  0%, 100% { opacity: .72; }
+  50% { opacity: 1; }
+}
+@keyframes focus-border-travel { to { --focus-border-angle: 360deg; } }
+@media (prefers-reduced-motion: reduce) {
+  .focus-sphere__light, .focus-sphere__reflection,
+  .focus-sphere__words--clear::after { animation: none; }
+}
+
+/* Green belongs to the selected focus window, beneath the crisp text. */
+.focus-sphere__words--clear::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 35% 30%, #edfdf61c, transparent 65%), linear-gradient(120deg, rgb(158 224 192 / .32), rgb(143 218 175 / .44));
+}
+@media (forced-colors: active) {
+  .focus-sphere__words--clear::before { display: none; }
+}
+
+/* Broad currents give the blurred texture a readable direction of travel. */
+.focus-sphere__current {
+  position: absolute;
+  left: -25%;
+  top: 20%;
+  width: 150%;
+  height: 55%;
+  border-radius: 45% 55% 60% 40%;
+  filter: blur(14px);
+  pointer-events: none;
+  mix-blend-mode: soft-light;
+}
+.focus-sphere__current--mint {
+  background: linear-gradient(170deg, transparent 12%, #e1fff28c 30%, #4eb99fcc 48%, #a8eee68c 62%, transparent 82%);
+  animation: focus-mint-current 11s cubic-bezier(.45, 0, .55, 1) infinite;
+}
+.focus-sphere__current--lilac {
+  background: linear-gradient(165deg, transparent 18%, #a59bdfb3 40%, #e0d4fb8c 58%, transparent 80%);
+  animation: focus-lilac-current 15s cubic-bezier(.45, 0, .55, 1) infinite;
+}
+@keyframes focus-mint-current {
+  0%, 100% { transform: translate(-6%, -27%) rotate(-22deg); opacity: .65; }
+  45% { transform: translate(8%, 44%) rotate(18deg); opacity: .95; }
+  75% { transform: translate(-3%, 12%) rotate(-8deg); opacity: .8; }
+}
+@keyframes focus-lilac-current {
+  0%, 100% { transform: translate(7%, 52%) rotate(24deg); opacity: .7; }
+  50% { transform: translate(-9%, -28%) rotate(-18deg); opacity: .9; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .focus-sphere__current { animation: none; }
+}
+@media (forced-colors: active) {
+  .focus-sphere__current { display: none; }
+}

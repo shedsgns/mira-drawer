@@ -5,6 +5,7 @@ import '@fontsource/onest/500.css';
 import { NeuralLoader } from '../neural-loader.js';
 import { WarningDrawer } from './components/WarningDrawer';
 import SparklesPage from './pages/sparkles/SparklesPage';
+import FocusPage from './pages/focus/FocusPage';
 import './styles.css';
 
 import clearIcon from '../Icons/Clear.svg';
@@ -571,7 +572,9 @@ if (!rootElement) {
 
 createRoot(rootElement).render(
   <StrictMode>
-    {window.location.pathname.replace(/^\/mira-drawer/, '').startsWith('/sparkles') ? <SparklesPage /> : <App />}
+    {window.location.pathname.replace(/^\/mira-drawer/, '').startsWith('/focus')
+      ? <FocusPage supportContent={<HelpDrawer isOpen />} />
+      : window.location.pathname.replace(/^\/mira-drawer/, '').startsWith('/sparkles') ? <SparklesPage /> : <App />}
   </StrictMode>,
 );
 

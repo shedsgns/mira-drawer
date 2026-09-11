@@ -8,6 +8,7 @@ Live: https://shedsgns.github.io/mira-drawer/
 
 - `/mira-drawer/` - drawer demo
 - `/mira-drawer/sparkles` - daily plan + sparkles demo
+- `/mira-drawer/focus` - separate weekly focus page, using Onest and the Mira icon set. Includes an animated CSS sphere, accessible focus picker, and a locally saved selection for the current Monday–Sunday week.
 
 ## Build
 
@@ -20,6 +21,7 @@ npm run build
 - `src/App.tsx` - drawer flows
 - `src/styles.css` - shared drawer styles
 - `src/pages/sparkles/` - Sparkles page
+- `src/pages/focus/` - weekly focus page and sphere, adapted from the supplied `focus/` reference package
 - `Icons/` - SVG assets
 
 ## Heart Drawer Iterations
@@ -94,3 +96,15 @@ white dust, sparkles, dark shadow, or blue border.
 ## Deploy
 
 Pushes to `main` deploy to GitHub Pages.
+
+## Focus sphere
+
+The original CSS glass shell, lens, and scrolling labels surround an Orbkit
+SHDR-25 surface. The speaking preset is slowed to speed 0.95, drift 0.24,
+and swirl 0.16, with Mira blue, aqua, and lilac and a soft-light blend over
+the original pastel body. No extra shader wrapper is used. Motion pauses
+while the drawer is open and respects visibility and reduced motion.
+
+SHDR-25 is by XorDev, for **non-commercial use with attribution**. Commercial
+use requires separate permission. See `src/pages/focus/orbkit/NOTICE.md`.
+The runtime is MIT licensed. The CSS sphere remains visible without WebGL.
